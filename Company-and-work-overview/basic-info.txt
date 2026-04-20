@@ -1,0 +1,57 @@
+About the Role
+
+Our client is seeking two DevOps Engineers to support enterprise-scale initiatives. You’ll build, automate, and optimize delivery pipelines and application environments with a strong focus on Java/Spring Boot, CI/CD (Git), Linux, and infrastructure automation (Ansible/Puppet/Chef). This role is ideal for engineers who thrive in fast-moving, regulated environments and enjoy owning build, deployment, and operational excellence end to end.
+
+ 
+
+Key Responsibilities:
+
+ 
+
+Development & IDE Workflows
+
+Write, debug, and maintain Java services using Spring Boot within IDEs like IntelliJ, Eclipse, and Gradle.
+Manage dependencies, build artifacts, and compile code using Gradle; resolve build issues and optimize build performance.
+Use debugging tools (breakpoints, variable inspection, step-through) to resolve defects efficiently.
+Integrate with Git for version control: branching, merging, pull requests, and code reviews.
+ 
+
+CI/CD & DevOps
+
+Design, implement, and maintain CI/CD pipelines (Git-based) to automate build, test, and deployment across environments.
+Enforce pipeline quality gates; integrate automated testing and security scans.
+Improve release reliability and frequency through pipeline optimization and environment standardization.
+ 
+
+Automation & Configuration Management
+
+Use Ansible/Puppet/Chef to automate provisioning, configuration, and application deployments.
+Develop and maintain playbooks/manifests to ensure consistent, repeatable environment setups.
+Orchestrate multi-step workflows across services and infrastructure components.
+ 
+
+Linux Systems & Operational Excellence
+
+Administer and harden Linux servers; manage users, permissions, and system configurations.
+Monitor system health (CPU, memory, disk, network); perform log analysis and troubleshoot issues impacting applications.
+Script routine tasks using Bash (or similar) to improve reliability and reduce manual effort.
+Implement security best practices (e.g., firewall rules, patching, configuration hardening) aligned to enterprise standards.
+ 
+
+Required Qualifications (Must-Haves)
+
+3–5 years with Java & Spring Boot building APIs/services.
+3–5 years with Git and CI/CD pipelines (branching strategies, PR workflows, build/deploy automation).
+3–5 years in DevOps roles, supporting build/release, automation, and environments.
+Hands-on with Gradle, IntelliJ/Eclipse, and Linux administration.
+Practical experience with Ansible, Puppet, or Chef for configuration management and deployment automation.
+Strong troubleshooting, log analysis, and debugging skills across app and OS layers.
+ 
+
+Nice to Have:
+
+Experience in financial services or other regulated industries.
+Exposure to Spring ecosystem (Spring Data JPA, Spring Security, Spring Cloud) and API security (JWT/OAuth2).
+Containerization and orchestration (e.g., Docker, Kubernetes).
+Familiarity with monitoring/observability (e.g., Prometheus, Grafana, ELK/EFK, AppDynamics, Splunk).
+Knowledge of secure SDLC practices and compliance-minded engineering.

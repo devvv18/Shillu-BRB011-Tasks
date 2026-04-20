@@ -1,0 +1,69 @@
+Sorry the stories I created for you in Jira were in the staging environment when they were doing the Jira cloud migration These are the new stories I created for you in the correct environment. Now they will show up on the Sprint board and you can be assigned to them.
+MIAM-38005
+MIAM-38006
+MIAM-38007
+MIAM-38008
+
+Hey Travis. I'd like to have Shillu start working on setting up our prod servers. I know it's prod but it's also a good chance for her to see the full lifecycle end to end. VMaaS to Puppet to Ansible.
+I'd like to break down the exercise into smaller bite size stories for her to tackle (edited)
+I'm thinking:
+• Provision VMs using VMaaS
+• Use VMaaS pipeline to create prodmbrid* VMs
+• Validate puppet profile automatically creates sadmin and we can ssh to those boxes
+• Use Ansible to install DS profile on those servers
+• Ensure replication is functioning
+• Verify can connect using apache directory studio and/or Idapsearch binary from box
+
+
+
+Source Branch is the Vmaas tutorial or whatever we selected for triggering pipeline
+Target Branch is Master
+Compare and continue
+Add Comments and make changes in fields
+FIELD TITLE [STORY MIAM story no assigned to you] TITLE [DIRECTORY SERVIVE EMPLOYEE
+UPGRADE TO 8.0.2]
+For exp: MIAM-38005 DIRECTORY SERVICE EMPLOYEE UPGRADE TO 8.0.2
+Description- (refer to the old one for reference and add your note)
+hit new merge request (new page-pipeline is running) click once created will show changes files on left
+below 100 lines post on mgs-gitlab channel above 100 go to MR party for approval.
+Send URL in MGS-GitLab for MR approvals.
+After 2 approvals Merge button needs to be pushed (not you Queue manager or other team folks can push)
+Then Pipeline runs and goes into master
+And merge will be completed. Go to puppet and check if VM's are created (using deployment name in plan review like deployment name like dmbrid88962a02lati)
+
+
+
+
+1. Pipeline passed upon creatin of the merge request. In the image, it indicates it has passed.
+I see from the first screenshot it has been merged to master. So if you go to Master you will see under commits, your commit there. Then if you go to build › pipeline you will see that your merge trigged a build of the pipeline.
+
+
+ds: (https://prodgitlab.usaa.com/grp-forgerock-vmaas)
+Go to code-tags-create tag
+tag name- (- Gitbab.ym[2.0.2 - whatever is latest in tags)
+Create from is always Master
+Description: tagging master branch to deploy the IDM changes specified in story (MIAM-xox)
+Create tag-will create master pipeline and will push to prod (diff depends based on projects)
+
+
+
+Build Pipeline
+Select Branch Master/Vmaas then
+Input Variable key is always TGT_CONFIS
+Input Variable Value is the servers we are targeting to hit new pipeline
+[Pipeline Runs]
+Attestation manual review -CONFIRMATION YES
+RUN
+check servers sizing dempcts12|sat(puppet)
+blueprint
+APPLY REVIEW (Manual intervention OPTIONAL) SO JUST RUN 10-15 mins run
+I need to review within 24 hrs before pushing to MR, it will be temp for 24hrs for validation.
+MR:
+same page click on MR on top to left
+Click on New MR
+Source Branch is the Vmaas tutorial or whatever we selected for triggering pipeline
+Target Branch is Master Compare and continue
+Add Comments and make changes in fields
+FIELD TITLE [STORY MIAM story no assigned to you) TITLE [DIRECTORY SERVIVE EMPLOYEE
+UPGRADE TO 8.0.2]
+For exp: MIAM-38005 DIRECTORY SERVICE EMPLOYEE UPGRADE TO 8.0.2
