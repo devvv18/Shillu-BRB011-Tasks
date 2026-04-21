@@ -1,0 +1,21 @@
+to target mbrid_01_atl (atlanta server) and mbrid_01_sat(san antonio server)
+
+create a new feature branch everytime and run the pipeline always in the feature branch 
+and to create a new pipeline 
+input variable key is TGT_CONFIGS
+input variable value is <Your Target Servers>
+
+note the deployment name so that we can check if it is running properly or not we can check that in puppet 
+note - always do this within 24 hours after running pipeline send merge request otherwise data will be lost 
+
+MERGE REQUEST 
+when everything is done and tested send merge request merge request/new merge request 
+-select branch from where you triggered the pipeline (feature branch) and the target branch will always be master branch
+-field title should always have the JIRA ticket number you're working on 
+and the description should be appropriate to the task you're working on
+MR party on every tuesday and thursday usually daily but no one joins 
+after every merge request copy the link to slack/mgs meta gear solid 
+after we get 2 approvals we can merge it using tag 
+tag -->new tag -->select master branch -->create tag -->tag name should be in format GitLab.vm[2.0.2] -->tag description should be appropriate to the task you're working on -->create tag -->
+
+use go/ before every website you wanna visit like go/mgswiki and go/puppet
