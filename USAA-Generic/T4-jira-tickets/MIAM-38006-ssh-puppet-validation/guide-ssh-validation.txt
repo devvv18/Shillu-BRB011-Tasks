@@ -1,5 +1,5 @@
 ================================================================================
-MIAM-37562 | SSH VALIDATION VIA PASSWORDSAFE
+MIAM-38006 | SSH VALIDATION VIA PASSWORDSAFE
 Complete Reference Guide - Shillu Navanand
 Created: April 24, 2026
 ================================================================================
@@ -25,10 +25,10 @@ Our 4 NEW Production Servers:
 • prodmbrid02lsat (San Antonio)
 
 Jira Status Overview:
-• MIAM-37561: Create prodmbrid* VMs                     [DONE]
-• MIAM-37562: Validate Puppet dsadminp + SSH works      [IN PROGRESS]
-• MIAM-37563: Install DS via Ansible + Replication      [NEXT]
-• MIAM-37564: Validate Connectivity (ldapsearch/ADS)    [FUTURE]
+• MIAM-38005: Create prodmbrid* VMs                     [DONE]
+• MIAM-38006: Validate Puppet dsadminp + SSH works      [IN PROGRESS]
+• MIAM-38007: Install DS via Ansible + Replication      [NEXT]
+• MIAM-38008: Validate Connectivity (ldapsearch/ADS)    [FUTURE]
 
 Production Access (PasswordSafe):
 • REQ Number:  REQ3295102 (Submitted: 2026-04-24)
@@ -57,7 +57,7 @@ Status: IN PROGRESS
 1. Login to go/passwordsafe.
 2. Find Account: "dsadminp" | System: "prodfrctl01lsat".
 3. Click Access and enter:
-   - Reason: MIAM-37562 Puppet/SSH validation on prod DS servers
+   - Reason: MIAM-38006 Puppet/SSH validation on prod DS servers
    - Ticket Number: RITM5069017
    - Session Length: 2 hours
 4. Launch terminal (iTerm or Terminal works best).
@@ -96,7 +96,7 @@ Always use 'id dsadminp' for validation.
 [ ] prodmbrid02lsat (TODO)
 [ ] prodmbrid02latl (TODO)
 
---- SECTION 5: WHAT COMES NEXT (MIAM-37563) ---
+--- SECTION 5: WHAT COMES NEXT (MIAM-38007) ---
 Next task: Install DS profile via Ansible + Validate replication.
 1. cd /forgerock/ansible-automation
 2. Run DS install playbook using Change ID: -e change_id=CHG_XXXXXXX
@@ -128,7 +128,7 @@ REPOSITORIES:
 • Ansible Automation:    https://prodgitlab.usaa.com/grp-inf-forgerock/ansible-automation
 
 JIRA TICKETS:
-• MIAM-37561: https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-37561
-• MIAM-37562: https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-37562
-• MIAM-37563: https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-37563
-• MIAM-37564: https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-37564
+• MIAM-38005: https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-38005
+• MIAM-38006: https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-38006
+• MIAM-38007: https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-38007
+• MIAM-38008: https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-38008

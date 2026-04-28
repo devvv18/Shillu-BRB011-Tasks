@@ -22,11 +22,11 @@ Shillu Navanand
 thanks drew
 Travis Lovaas [2:11 PM]
 Not sure how you're supposed to vote in this new Jira Cloud UI but here's the stories if you wanna review em.
-https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-37561
-https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-37562
-https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-37563
-https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-37564
-MIAM-37561 IDM: VMaas - Create prodmbrid* VMsStatus: OpenType: StoryAssignee: UnassignedPriority: MediumAdded by Jira CloudMIAM-37562 IDM: Validate
+https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-38005
+https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-38006
+https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-38007
+https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-38008
+MIAM-38005 IDM: VMaas - Create prodmbrid* VMsStatus: OpenType: StoryAssignee: UnassignedPriority: MediumAdded by Jira CloudMIAM-38006 IDM: Validate
 sure
 [2:14 PM]I don't have access yet to Jira Cloud UI. I have raised request for it yesterday.
 Travis Lovaas [2:16 PM]

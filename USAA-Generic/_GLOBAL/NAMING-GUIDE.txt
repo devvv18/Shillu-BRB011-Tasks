@@ -18,7 +18,7 @@ T1-learning/         | Task 1: Learning and onboarding files.
 T2-{description}/    | Task 2 files (Follow the T-numbering from tasks-overview).
 T3-{description}/    | Task 3 files.
 T4-jira-tickets/     | Task 4: Contains sub-folders for each individual Jira ticket.
-  |_ MIAM-{id}-{name}| Sub-folders inside T4 (e.g., MIAM-37562-ssh-validation).
+  |_ MIAM-{id}-{name}| Sub-folders inside T4 (e.g., MIAM-38006-ssh-validation).
 T5-transcripts/      | Meeting recording transcripts and automated notes.
 TN-{description}/    | Future tasks (T6, T7, etc.) following the same pattern.
 
@@ -66,7 +66,7 @@ HOW TO ADD A NEW TASK (T6, T7, etc.):
 3. Place all related files inside the new folder using the naming convention.
 
 HOW TO ADD A NEW JIRA TICKET (Inside T4):
-1. Create sub-folder: MIAM-{id}-{description} (e.g., MIAM-37565-cert-rotation).
+1. Create sub-folder: MIAM-{id}-{description} (e.g., MIAM-38009-cert-rotation).
 2. Add a status entry in _GLOBAL/PROGRESS-TRACKER.txt under "JIRA TICKETS".
 3. Start with a guide- file for steps and a notes- file for progress.
 
@@ -87,10 +87,10 @@ T1-learning/
 
 T4-jira-tickets/
   |_ chat-team-planning-slack.txt   | Main planning thread with Andrew/Travis.
-  |_ MIAM-37561-create-vms/         | Status: DONE
-  |_ MIAM-37562-ssh-validation/     | Status: IN PROGRESS
-  |_ MIAM-37563-ansible-ds-install/ | Status: NEXT
-  |_ MIAM-37564-validate-connectivity/| Status: FUTURE
+  |_ MIAM-38005-create-vms/         | Status: DONE
+  |_ MIAM-38006-ssh-validation/     | Status: IN PROGRESS
+  |_ MIAM-38007-ansible-ds-install/ | Status: NEXT
+  |_ MIAM-38008-validate-connectivity/| Status: FUTURE
 
 T5-transcripts/
   |_ transcript-deployment-flow.txt | Overview of the deployment process.

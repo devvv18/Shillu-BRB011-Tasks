@@ -29,12 +29,12 @@ Phase 3: Canary rollout 0>100%. Monitor Prometheus. Rollback anytime.
 Phase 4: Retire old DS 7.3.3. Disable web port → wait for 0 connections → shutdown gracefully.
 Notify SecApps. Remove from Prometheus. Update wikis. Submit for decommission.
 == JIRA STORIES ==
-MIAM-37561 | Create prodmbrid* vMs |
+MIAM-38005 | Create prodmbrid* vMs |
 DONE
-https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-37561
-MIAM-37562 | Validate Puppet dsadminp + SSH | E
+https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-38005
+MIAM-38006 | Validate Puppet dsadminp + SSH | E
 IN PROGRESS
-https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-37562
+https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-38006
 PasswordSafe: https://passwordsafe.usaa.com/WebConsole/#!/ps/portal?tab=accounts
 RITM: RITM5069017 | REQ: REQ3295102
 Access: PasswordSafe → prodfrctl01lsat (dsadminp, IP 10.131.49.87) → Access << → enter RITM → Start Session → terminal → ssh prodmbridexlxxx
@@ -51,12 +51,12 @@ python &
 prodmbrid02lsat
 prodmbrid02latl
 Close ticket: comment in Jira with outputs, post in Slack CLLMBPXJT, mark Done.
-MIAM-37563 | Ansible DS 8.0.2 install + replication | X NEXT
-https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-37563
+MIAM-38007 | Ansible DS 8.0.2 install + replication | X NEXT
+https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-38007
 SSH via PasswordSafe → prodfrctl01lsat → cd / forgerock/ansible-automation → run DS install playbook
 ALL prod Ansible runs need: -e change_id=CHG_XXXXXXx (CHG must be in Implement state)
-MIAM-37564 | dapsearch / Apache Directory Studio connectivity | & FUTURE
-https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-37564
+MIAM-38008 | dapsearch / Apache Directory Studio connectivity | & FUTURE
+https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-38008
 == PROD CHANGE RULES ==
 - Need CHG in Implement state OR RITM/CTASK for any prod action
 - All prod Ansible: -e change_
@@ -133,6 +133,6 @@ prodmbridolsat validated
 prodmbridollatl - ssh-keygen -R then ssh + yes + validate
 prodmbrid02lsat - ssh + validate
 prodmbrid02latl - ssh + validate
-close MIAM-37562 → post CLLMBPXJT → raise go/soarpsrequest for prodmbrid* in PasswordSafe
-MIAM-37563: Ansible DS 8.0.2 install (need CHG, talk to Tim)
-MIAM-37564: ldapsearch/ADS connectivity test
+close MIAM-38006 → post CLLMBPXJT → raise go/soarpsrequest for prodmbrid* in PasswordSafe
+MIAM-38007: Ansible DS 8.0.2 install (need CHG, talk to Tim)
+MIAM-38008: ldapsearch/ADS connectivity test

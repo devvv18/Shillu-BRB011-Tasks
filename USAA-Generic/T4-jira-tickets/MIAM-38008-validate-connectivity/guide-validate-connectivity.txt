@@ -1,7 +1,7 @@
 ================================================================================
-MIAM-37564 | VALIDATE CONNECTIVITY VIA LDAPSEARCH / ADS
-Status: FUTURE (Starts after MIAM-37563 is closed)
-Jira: https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-37564
+MIAM-38008 | VALIDATE CONNECTIVITY VIA LDAPSEARCH / ADS
+Status: FUTURE (Starts after MIAM-38007 is closed)
+Jira: https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-38008
 ================================================================================
 
 WHAT THIS TICKET IS:
@@ -13,7 +13,7 @@ TOOLS TO USE:
 2. Apache Directory Studio (ADS): GUI application to browse the directory.
 
 PRE-REQUISITES (Before starting):
-[ ] MIAM-37563 fully closed (DS installed + replication working).
+[ ] MIAM-38007 fully closed (DS installed + replication working).
 [ ] Ask Tim or Nidhi for the specific ldapsearch commands and ADS config.
 
 STEPS:
@@ -25,13 +25,13 @@ STEPS:
    - prodmbrid02lsat
    - prodmbrid02latl
 4. [ ] Screenshot or save the command output as proof.
-5. [ ] Add results to Jira MIAM-37564.
+5. [ ] Add results to Jira MIAM-38008.
 6. [ ] Mark ticket Done in Jira.
 7. [ ] Post in Slack channel #CLLM3PXJT:
-       "MIAM-37564 complete. Connectivity validated on all 4 prod member DS servers."
+       "MIAM-38008 complete. Connectivity validated on all 4 prod member DS servers."
 
 USEFUL LINKS:
-• Jira Story: https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-37564
+• Jira Story: https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-38008
 • ForgeRock Wiki: https://wiki.usaa.com/spaces/SECAPPS/pages/861359677/ForgeRock+Directory+Server+Pre-Validation+Post-Validation
 
 NOTES / UPDATES:

@@ -22,7 +22,9 @@ PRE-REQUISITES:
 [x] MIAM-38006 closed: SSH + Puppet validated on all 4 servers.
 [x] PasswordSafe access: RITM5069017 (Jump Server).
 [ ] PasswordSafe onboarding for prodmbrid* servers (RITM5068998 in progress).
+LINK__>>
 [ ] CHG raised and in "Implement" state (Ask Tim or Andrew for CHG #).
+link -> 
 
 SERVERS:
 - prodmbrid01lsat (San Antonio) | prodmbrid01latl (Atlanta)
@@ -48,13 +50,13 @@ STEP 3: Navigate to Ansible Directory
 [ ] cd /forgerock/ansible-automation
 [ ] Ask Tim or Nidhi for the exact DS init playbook command.
     Format: ansible-playbook <playbook>.yml -e "target=prodmbrid01lsat" -e change_id=CHG_xxxxxxx
-    Note: -e change_id is REQUIRED on every production run.
+    Note: -e change_id is REQUIRED on every production run
 
 STEP 4: Run DS 8.0.2 Install Playbook (AC1)
-[ ] Run DS init playbook and monitor for failed tasks.
+[ ] Run DS init playbook and monitor for failed tasks.ˀ
 [ ] Verify DS service is running on each server:
     ssh <servername> -> systemctl status ds -> exit
-[ ] Confirm DS 8.0.2 is active on all 4 servers. (Capture screenshots).
+[ ] Confirm DS 8.0.2 is active on all 4 servers. (Capture screenshots)
 
 STEP 5: Bootstrap Replication (AC2)
 [ ] Ask Tim for the replication bootstrap playbook command.

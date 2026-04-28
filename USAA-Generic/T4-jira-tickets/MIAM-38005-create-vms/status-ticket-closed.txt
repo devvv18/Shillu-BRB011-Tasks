@@ -1,5 +1,5 @@
 ================================================================================
-JIRA TICKET: MIAM-37561
+JIRA TICKET: MIAM-38005
 TITLE:       Create prodmbrid* VMs via VMaaS
 STATUS:      COMPLETE
 CLOSED DATE: April 24, 2026
@@ -17,7 +17,7 @@ SERVERS PROVISIONED:
 
 REFERENCE LINKS:
 • VMaaS Pipeline: https://prodgitlab.usaa.com/grp-forgerock-vmaas/directory-services/-/pipelines/22809964
-• Jira Ticket:    https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-37561
+• Jira Ticket:    https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-38005
 
 NOTES:
 - Feature branch was merged into master.

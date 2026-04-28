@@ -34,11 +34,11 @@ Phase 2 - Install + Replicate: Ansible installs DS 8.0.2. Servers replicate each
 Phase 3 - Canary Rollout: Gradually shift traffic 0→100%. Monitor Prometheus. Rollback = set to 0%. STATUS: NEXT
 Phase 4 - Retire Old VMs: Disable web port → wait for 0 connections → shutdown → remove from Prometheus → notify SecApps → decommission → update wikis. STATUS
 == JIRA STORIES ==
-MIAM-37561 | Create prodmbrid* VMs | COMPLETE
-https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-37561
+MIAM-38005 | Create prodmbrid* VMs | COMPLETE
+https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-38005
 Maas pipeline triggered. All 4 VMs created. Branch cloned locally (branch is temp, deleted after merge) .
-MIAM-37562 | Validate Puppet dsadminp + SSH | IN PROGRESS (CURRENT TICKET)
-https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-37562
+MIAM-38006 | Validate Puppet dsadminp + SSH | IN PROGRESS (CURRENT TICKET)
+https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-38006
 Goal: prove Puppet worked by SHing into each server and confirming dsadminp user + Java 17 + Python.
 USER = dsadminp NOT dsadmin. "id dsadmin" = no such user. That is CORRECT. Always use: id dsadminp
 Credentials: PasswordSafe URL: go/passwordsafe | RITM: RITM5069017 | REQ: REQ3295102
@@ -53,20 +53,20 @@ hostname dsadminp uid=13048 gid=13743 sshaccess™ java 17.0.18M python3 &
 host key fix needed
 prodmbrid02lsat
 prodmbrid02latl
-Close ticket: validate all 4 → screenshot outputs → comment in Jira → mark Done » post CLLMBPXJT: "MIAM-37562 complete. SSH validated on all 4 prodmbrid servers. dsadminp
+Close ticket: validate all 4 → screenshot outputs → comment in Jira → mark Done » post CLLMBPXJT: "MIAM-38006 complete. SSH validated on all 4 prodmbrid servers. dsadminp
 confirmed. Java 17 and Python present."
-MIAM-37563 | Ansible DS 8.0.2 install + replication | NEXT
-https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-37563
+MIAM-38007 | Ansible DS 8.0.2 install + replication | NEXT
+https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-38007
 Install ForgeRock DS 8.0.2 on all 4 servers. Connect them to each other (replication). Verify sync.
 How: PasswordSafe → prodfrctl01lsat → cd /forgerock/ansible-automation → run DS install playbook
 ALL prod Ansible MUST include: -e change id=CHG_XXXXXXX (CHG must be in Implement state or playbook refuses)
 Ask Tim for exact playbook command. Ansible repo: https://prodgitlab.usaa.com/grp-inf-forgerock/ansible-automation
-MIAM-37564 | ldapsearch / Apache Directory Studio connectivity | FUTURE
-https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-37564
+MIAM-38008 | ldapsearch / Apache Directory Studio connectivity | FUTURE
+https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-38008
 Test querying the DS server and getting data back. Idapsearch = CLI tool. Apache Directory Studio = GUI tool.
 
-MIAM-37564 | dapsearch / Apache Directory Studio connectivity | FUTURE
-https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-37564
+MIAM-38008 | dapsearch / Apache Directory Studio connectivity | FUTURE
+https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-38008
 Test querying the DS server and getting data back. ldapsearch = CLI tool. Apache Directory Studio = GUI tool.
 == PROD CHANGE RULES ==
 Maas branch is TEMP (24hrs) - clone locally before triggering pipeline.
@@ -113,10 +113,10 @@ Auth Platform Topology: https://wiki.usaa.com/spaces/PI/pages/2756914719/Authent
 ForgeRock Pre/Post Validation: https://wiki.usaa.com/spaces/SECAPPS/pages/861359677/ForgeRock+Directory+Server+Pre-Validation+Post-Validation
 Maas Getting Started: https://wiki.usaa.com/spaces/ITOPS/pages/1516750600/VMaaS+-+Getting+Started+Part+4
 MGS Definition of Done: https://wiki.usaa.com/spaces/PI/pages/510850273/MGS+-+Definition+of+Done+and+Team+Agreement
-MIAM-37561: https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-37561
-MIAM-37562: https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-37562
-MIAM-37563: https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-37563
-MIAM-37564: https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-37564
+MIAM-38005: https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-38005
+MIAM-38006: https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-38006
+MIAM-38007: https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-38007
+MIAM-38008: https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-38008
 Zoom DS Upgrade Overview: https://usaa.zoom.us/rec/share/Mabmx38xAUAyMXiPk-n4TDa54Yt7zHeMgz65rv0BGXuJWg0Nuqrcx50ZV6H]LS.76FBiaAkuJcd8gCu Passcode: y5m$FK6$
 Also watch: Prometheus changes + Retiring old servers recordings (in Projects Chrome folder).
 == IMMEDIATE NEXT STEPS ==
@@ -124,7 +124,7 @@ Also watch: Prometheus changes + Retiring old servers recordings (in Projects Ch
 ] ssh-keygen -R prodmbrid01latl → ssh prodmbridolatl → yes → hostname ; id dsadminp ; java -version ; python --version → exit
 ssh prodmbride2lsat → yes → hostname ; id dsadminp ; java -version ; python3 --version → exit
 ssh prodmbrid02latl → yes → hostname ; id dsadminp ; java -version ; python3 --version → exit
-] Screenshot all outputs → comment in Jira MIAM-37562 → mark Done
-] Post CLLMBPXJT: MIAM-37562 complete. SSH validated on all 4 prodmbrid servers.
-] Ask Tim for Ansible DS 8.0.2 install command → raise CHG → begin MIAM-37563
-] After MIAM-37563 → MIAM-37564 ldapsearch/ADS connectivity test
+] Screenshot all outputs → comment in Jira MIAM-38006 → mark Done
+] Post CLLMBPXJT: MIAM-38006 complete. SSH validated on all 4 prodmbrid servers.
+] Ask Tim for Ansible DS 8.0.2 install command → raise CHG → begin MIAM-38007
+] After MIAM-38007 → MIAM-38008 ldapsearch/ADS connectivity test

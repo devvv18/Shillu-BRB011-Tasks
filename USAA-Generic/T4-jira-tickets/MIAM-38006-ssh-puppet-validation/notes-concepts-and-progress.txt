@@ -1,4 +1,4 @@
-MIAM-37562 | SSH & Puppet Validation - My Progress Notes
+MIAM-38006 | SSH & Puppet Validation - My Progress Notes
 Last Updated: April 24, 2026 | Owner: Shillu Navanand
 BEFORE YOU START - WHAT IS ALL THIS? (Plain English)
 What is a VM (Virtual Machine)?
@@ -53,7 +53,7 @@ and Ansible playbooks) live here. It also runs pipelines
 USAA's internal GitLab: https://prodgitlab.usaa.com
 What is Jira?
 Jira is the tool we use to track work. Every task is a "ticket"
-or "story" with a number like MIAM-37562. You update the ticket
+or "story" with a number like MIAM-38006. You update the ticket
 as you make progress and close it when done.
 OUR 4 SERVERS (already created via vMaas
 prodmbrid01latl « Prod | Location: ATL (Atlanta)
@@ -64,11 +64,11 @@ Pipeline that created them:
 https://prodgitlab.usaa.com/grp-forgerock-vmaas/directory-services/-/pipelines/22809964
 OVERALL TICKET JOURNEY (Big Picture)
 [X
-DONE] MIAM-37561 → Create the VMs using Maas pipeline
-NOW ] MIAM-37562 → Validate Puppet created dsadmin + SSH works
-NEXT] MIAM-37563 → Install DS (ForgeRock) via Ansible + validate replication
-NEXT] MIAM-37564 → Validate connectivity (Apache Directory Studio / ldapsearch)
-MIAM-37562 - STEP BY STEP GUIDE
+DONE] MIAM-38005 → Create the VMs using Maas pipeline
+NOW ] MIAM-38006 → Validate Puppet created dsadmin + SSH works
+NEXT] MIAM-38007 → Install DS (ForgeRock) via Ansible + validate replication
+NEXT] MIAM-38008 → Validate connectivity (Apache Directory Studio / ldapsearch)
+MIAM-38006 - STEP BY STEP GUIDE
 STEP 1 - Add SSH Public Key to GitLab
 DONE
 WHY: GitLab needs your public key to know it's YOU when you
@@ -178,7 +178,7 @@ ssh prodmbrid01lsat
 ssh prodmbridozlatl
 ssh prodmbrid02lsat
 (No full domain name needed - you're already inside the network)
-7. For Ansible work later (MIAM-37563), navigate to:
+7. For Ansible work later (MIAM-38007), navigate to:
 cd /forgerock/ansible-automation
 — PLAIN ENGLISH: What is prodfrctl01lsat?
 It's a "jump server" - like a secure lobby.
@@ -214,8 +214,8 @@ Copy/screenshot the output for ticket evidence.
 STEP 6 - Update Jira & Notify Team
 TODO
 HOW:
-1. Go to MIAM-37562 in Jira Cloud
-https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-37562
+1. Go to MIAM-38006 in Jira Cloud
+https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-38006
 2. Add a comment with:
 - Screenshot or output from Step 5
 - Status: all 4 servers SSH'd successfully, dsadmin confirmed
@@ -249,7 +249,7 @@ https://prodgitlab.usaa.com/grp-inf-forgerock/ansible-automation
 DS Upgrade Guide (wiki):
 https://wiki.usaa.com/spaces/PI/pages/3808824081/Directory+Services+DS+Upgrade+Guide
 Jira Stories:
-MIAM-37561: https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-37561
-MIAM-37562: https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-37562
-MIAM-37563: https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-37563
-MIAM-37564: https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-37564
+MIAM-38005: https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-38005
+MIAM-38006: https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-38006
+MIAM-38007: https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-38007
+MIAM-38008: https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-38008

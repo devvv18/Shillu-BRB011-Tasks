@@ -43,7 +43,7 @@ Notes: [Apr 25] All repo links saved in REFERENCE/project-complete-reference.txt
 
 TASK 3: Deploy New VMs (VMaaS Pipeline)
 STATUS: DONE
-Folder: T4-jira-tickets/MIAM-37561-create-vms/
+Folder: T4-jira-tickets/MIAM-38005-create-vms/
 [x] Created feature branch from master in VMaaS repo.
 [x] Triggered pipeline with TGT_CONFIGS for all 4 servers.
 [x] Completed attestation / manual review.
@@ -56,7 +56,7 @@ Servers created:
 [x] prodmbrid02lsat (San Antonio)
 Pipeline: https://prodgitlab.usaa.com/grp-forgerock-vmaas/directory-services/-/pipelines/22809964
 
-TASK 4: Jira Ticket Work (MIAM-37561 to 37564)
+TASK 4: Jira Ticket Work (MIAM-38005 to MIAM-38008)
 STATUS: IN PROGRESS
 Folder: T4-jira-tickets/
 (See Section 2 below for ticket-by-ticket breakdown.)
@@ -73,20 +73,20 @@ Notes: This folder is used to archive important process discussions.
 SECTION 2: JIRA TICKETS
 --------------------------------------------------------------------------------
 
-MIAM-37561 | Create prodmbrid* VMs via VMaaS
+MIAM-38005 | Create prodmbrid* VMs via VMaaS
 STATUS: DONE
-Folder: T4-jira-tickets/MIAM-37561-create-vms/
-Jira: https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-37561
+Folder: T4-jira-tickets/MIAM-38005-create-vms/
+Jira: https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-38005
 [x] MaaS pipeline triggered.
 [x] All 4 prodmbrid* VMs created.
 [x] MR created, approved, merged.
 [x] VMs visible in Puppet console.
 [x] Jira ticket marked Done.
 
-MIAM-37562 | Validate Puppet dsadminp + SSH works
+MIAM-38006 | Validate Puppet dsadminp + SSH works
 STATUS: IN PROGRESS
-Folder: T4-jira-tickets/MIAM-37562-ssh-puppet-validation/
-Jira: https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-37562
+Folder: T4-jira-tickets/MIAM-38006-ssh-puppet-validation/
+Jira: https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-38006
 [x] SSH key added to GitLab.
 [x] Prod access request raised (REQ3295102 → RITM5069017).
 [x] RITM confirmed and PasswordSafe session tested.
@@ -97,15 +97,15 @@ Validation Status (via prodfrctl01lsat):
 [ ] prodmbrid02latl - TODO
 Closing steps:
 [ ] All 4 servers validated and screenshots taken.
-[ ] Comment added to Jira MIAM-37562 with results.
+[ ] Comment added to Jira MIAM-38006 with results.
 [ ] Ticket marked Done in Jira.
 
-MIAM-37563 | Install DS 8.0.2 via Ansible & Validate Replication
+MIAM-38007 | Install DS 8.0.2 via Ansible & Validate Replication
 STATUS: NEXT
-Folder: T4-jira-tickets/MIAM-37563-ansible-ds-install/
-Jira: https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-37563
+Folder: T4-jira-tickets/MIAM-38007-ansible-ds-install/
+Jira: https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-38007
 Pre-requisites:
-[ ] MIAM-37562 fully closed.
+[ ] MIAM-38006 fully closed.
 [ ] Change Request (CHG) raised and in "Implement" state.
 Steps:
 [ ] SSH into prodfrctl01lsat via PasswordSafe.
@@ -116,12 +116,12 @@ Steps:
 [ ] Verify replication is working across the cluster.
 [ ] Close Jira ticket and notify Slack channel CLLMBPXJT.
 
-MIAM-37564 | Validate Connectivity via ldapsearch/ADS
+MIAM-38008 | Validate Connectivity via ldapsearch/ADS
 STATUS: FUTURE
-Folder: T4-jira-tickets/MIAM-37564-validate-connectivity/
-Jira: https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-37564
+Folder: T4-jira-tickets/MIAM-38008-validate-connectivity/
+Jira: https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-38008
 Pre-requisites:
-[ ] MIAM-37563 fully closed.
+[ ] MIAM-38007 fully closed.
 Steps:
 [ ] Use ldapsearch or Apache Directory Studio to query DS servers.
 [ ] Confirm data is returned correctly from all 4 servers.
@@ -151,7 +151,7 @@ SECTION 4: BLOCKERS AND PENDING ITEMS
     Workaround: Use prodfrctl01lsat (Jump Server).
     Action: Request added at http://go/soarpsrequest/ (Andrew guiding).
 
-[ ] CHG number needed for MIAM-37563.
+[ ] CHG number needed for MIAM-38007.
     Action: Raise Change Request and get it to "Implement" state.
 
 --------------------------------------------------------------------------------
@@ -161,6 +161,6 @@ SECTION 5: CHANGE LOG (HISTORY)
 [Apr 25] Workspace reorganized with proper folder and file naming.
 [Apr 25] prodmbrid01lsat & latl validation complete.
 [Apr 25] REQ3295102 raised for prod access. RITM5069017 received.
-[Apr 24] All 4 prodmbrid* VMs created via VMaaS. MIAM-37561 closed.
+[Apr 24] All 4 prodmbrid* VMs created via VMaaS. MIAM-38005 closed.
 [Apr 24] SSH key added to GitLab for Shillu.
 ================================================================================
