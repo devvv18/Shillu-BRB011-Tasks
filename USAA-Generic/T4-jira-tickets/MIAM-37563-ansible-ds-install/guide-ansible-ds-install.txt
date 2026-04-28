@@ -1,46 +1,95 @@
 ================================================================================
-MIAM-37563 | INSTALL DS 8.0.2 VIA ANSIBLE + REPLICATION
-Status: NEXT (Starts after MIAM-37562 is closed)
-Jira: https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-37563
+MIAM-38007 | INSTALL DS 8.0.2 VIA ANSIBLE + REPLICATION
+Status: IN PROGRESS (MIAM-38006 closed)
+Jira: https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-38007
 ================================================================================
 
-WHAT THIS TICKET IS:
-Use Ansible to install ForgeRock DS 8.0.2 on all 4 new member servers, 
-then connect them to each other (replication) so they all share the same 
-data and stay in sync.
+TICKET OBJECTIVE:
+As an MGS developer, I need to install ForgeRock DS on the production IDM VMs 
+so that the IDM Directory Services can function properly.
 
-PRE-REQUISITES (Before starting):
-[ ] MIAM-37562 fully closed and confirmed.
-[ ] Change Request (CHG) raised and in "Implement" state.
-    - Ask Tim or Andrew how to raise this.
-[ ] PasswordSafe access active (RITM5069017).
+ACCEPTANCE CRITERIA (AC):
+AC1) VMs created -> DS init playbook executed on prod IDM servers -> DS running.
+AC2) DS initialized -> replication configured -> replication cluster in sync.
 
-STEPS:
-1. [ ] SSH into prodfrctl01lsat via PasswordSafe.
-2. [ ] Navigate to the Ansible directory:
-       cd /forgerock/ansible-automation
-3. [ ] Get the exact playbook command from Tim or Nidhi.
-4. [ ] Run the DS 8.0.2 install playbook with your CHG number:
-       ansible-playbook ... -e change_id=CHG_XXXXXXX
-5. [ ] Verify DS 8.0.2 is installed on all 4 servers.
-6. [ ] Run replication bootstrap to connect the cluster.
-7. [ ] Verify replication is functioning (all servers in sync).
-8. [ ] Add results/screenshots to Jira MIAM-37563.
-9. [ ] Mark ticket Done in Jira.
-10. [ ] Post in Slack channel #CLLM3PXJT:
-       "MIAM-37563 complete. DS 8.0.2 installed. Replication verified."
+BACKGROUND:
+- SSH works (MIAM-38006 done). Servers are currently EMPTY of ForgeRock software.
+- Puppet = Sets up the "room" (users, Java, Python, SSH).
+- Ansible = Brings in the "furniture" (installs DS 8.0.2).
+- After install, servers must be connected (replicated) so all 4 mirror each other.
 
-KEY RULE - PROD ANSIBLE:
-Every Ansible playbook run in production MUST include:
--e change_id=CHG_XXXXXXX
+PRE-REQUISITES:
+[x] MIAM-38006 closed: SSH + Puppet validated on all 4 servers.
+[x] PasswordSafe access: RITM5069017 (Jump Server).
+[ ] PasswordSafe onboarding for prodmbrid* servers (RITM5068998 in progress).
+[ ] CHG raised and in "Implement" state (Ask Tim or Andrew for CHG #).
 
-Without a valid CHG in the "Implement" state, the playbook will refuse to 
-run. This is a USAA hard security control.
+SERVERS:
+- prodmbrid01lsat (San Antonio) | prodmbrid01latl (Atlanta)
+- prodmbrid02lsat (San Antonio) | prodmbrid02latl (Atlanta)
 
-USEFUL LINKS:
+--------------------------------------------------------------------------------
+EXECUTION STEPS
+--------------------------------------------------------------------------------
+
+STEP 1: Raise Change Request (CHG)
+[ ] Ask Tim or Andrew to raise a CHG for this work.
+[ ] Ensure CHG is in "Implement" state.
+[ ] CHG Number: ____________________
+
+STEP 2: Log into Control Server (Jump Server)
+[ ] go/passwordsafe -> prodfrctl01lsat (dsadminp)
+[ ] Access Type: "Access <<"
+[ ] Reason: "MIAM-38007 DS 8.0.2 install on prod member DS servers"
+[ ] Ticket: RITM5069017 | Duration: 4 hours
+[ ] Verify Prompt: [dsadminp@prodfrctl01lsat ~]$
+
+STEP 3: Navigate to Ansible Directory
+[ ] cd /forgerock/ansible-automation
+[ ] Ask Tim or Nidhi for the exact DS init playbook command.
+    Format: ansible-playbook <playbook>.yml -e "target=prodmbrid01lsat" -e change_id=CHG_xxxxxxx
+    Note: -e change_id is REQUIRED on every production run.
+
+STEP 4: Run DS 8.0.2 Install Playbook (AC1)
+[ ] Run DS init playbook and monitor for failed tasks.
+[ ] Verify DS service is running on each server:
+    ssh <servername> -> systemctl status ds -> exit
+[ ] Confirm DS 8.0.2 is active on all 4 servers. (Capture screenshots).
+
+STEP 5: Bootstrap Replication (AC2)
+[ ] Ask Tim for the replication bootstrap playbook command.
+[ ] Run replication playbook with the valid CHG number.
+[ ] Verify sync status: "dsreplication status" (Ask Tim for specific flags).
+[ ] Confirm all 4 servers are listed and in sync. (Capture screenshots).
+
+STEP 6: Final Verification
+[ ] SSH to each server and verify process: ps aux | grep ds
+[ ] Ensure AC1 (Running) and AC2 (Replicating) are both satisfied.
+
+STEP 7: Close Ticket
+[ ] Comment on Jira MIAM-38007 with:
+    - DS install confirmation for all 4 servers.
+    - Replication output (DSR).
+    - CHG number used.
+    - Attached screenshots.
+[ ] Mark ticket DONE in Jira.
+[ ] Post in Slack #CLLMBPXJT:
+    "MIAM-38007 complete. DS 8.0.2 installed on all 4 prod member DS servers. Replication verified."
+
+--------------------------------------------------------------------------------
+LINKS & REFERENCES
+--------------------------------------------------------------------------------
 • Ansible Repo: https://prodgitlab.usaa.com/grp-inf-forgerock/ansible-automation
-• Jira Story:  https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-37563
+• Jira Story:  https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-38007
+• DS Guide:    https://wiki.usaa.com/spaces/PI/pages/3808824081/DS+Upgrade+Guide
+• Validation:  https://wiki.usaa.com/spaces/SECAPPS/pages/861359677/Pre-Post-Validation
 
-NOTES / UPDATES:
-(Add your progress notes here...)
+NOTES:
+- CHG Number: ________________
+- Playbook Command: ___________________________________________________________
+- Results (DS Install / Replication):
+  [ ] prodmbrid01lsat: _____ / _____
+  [ ] prodmbrid01latl: _____ / _____
+  [ ] prodmbrid02lsat: _____ / _____
+  [ ] prodmbrid02latl: _____ / _____
 ================================================================================
