@@ -1,0 +1,59 @@
+Andrew Richardson [12:56 PM]
+Hey Travis. I'd like to have Shillu start working on setting up our prod servers. I know it's prod but it's also a good chance for her to see the fu
+[12:56 PM]I'd like to break down the exercise into smaller bite size stories for her to tackle (edited)
+[1:00 PM]I'm thinking:
+Provision VMs using VMaas
+Use VMaas pipeline to create prodmbrid* vMs
+Validate puppet profile automatically creates dsadmin and we can ssh to those boxes
+1.00
+Use Ansible to install DS profile on those servers
+Ensure replication is functioning
+Verify can connect using apache directory studio and/or ldapsearch binary from box
+Travis Lovaas [1:04 PM]
+Yeah sounds great to me :+1:
+[1:05 PM]I can go ahead and start creating those stories
+Andrew Richardson [1:06 PM]
+Thank you. Please feel free to bring in Tim and/or Nidhi to help guide her as well.
+[1:06 PM]I'm in and out right now so want shillu to have someone to go to with questions while I'm unavailable
+Travis Lovaas [1:06 PM]
+Sure thing.
+Shillu Navanand
+[1:17 PM]
+thanks drew
+Travis Lovaas [2:11 PM]
+Not sure how you're supposed to vote in this new Jira Cloud UI but here's the stories if you wanna review em.
+https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-37561
+https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-37562
+https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-37563
+https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-37564
+MIAM-37561 IDM: VMaas - Create prodmbrid* VMsStatus: OpenType: StoryAssignee: UnassignedPriority: MediumAdded by Jira CloudMIAM-37562 IDM: Validate
+sure
+[2:14 PM]I don't have access yet to Jira Cloud UI. I have raised request for it yesterday.
+Travis Lovaas [2:16 PM]
+No worries.
+This is the maas project for our DS servers if you wanna check it out in the meantime
+https://prodgitlab.usaa.com/grp-forgerock-vmaas/directory-services
+directory-servicesGitlab Unfurler | Last refreshed: March 27th 2:24:59 PM Added by GitLab UnfurlerAndrew Richardson
+[2:17 PM]
+I add a few flags
+Shillu Navanand [2:17 PM]
+Yes, Drew shared me project for Maas and Puppet. I am go through those. Will ping you if i have questions.
+Andrew Richardson [2:20 PM]
+I voted on these stories
+Travis Lovaas [2:24 PM]
+Where do you see the vote button? :eyes:
+Andrew Richardson [2:25 PM]
+image.png Shillu Navanand [2:49 PM]
+Ansible- Is there any kind of POC R&D performed with ansible ,what are pros and cons
+What is the problem statement or exact issue for prepared ansible playbooksAndrew Richardson [3:06 PM]
+not sure what you are asking?
+Shillu Navanand [3:18 PM]
+i wanted to understand if there's been any prior POC or evaluation done with ansible in this setup. Are there like any key problem statements or ga
+Andrew Richardson [3:19 PM]
+I see
+[3:19 PM ummm
+[3:19 PM]before ansible we had a ton of ugly bash and python scripts :slightly_smiling_face:
+[3:20 PM]we identified ansible as an improvement overall and at the time learned along the way
+Shillu Navanand [3:22 PM]
+Shillu Navanand |3:22 PMJ
+that makes sense ansible was introduced to simplify what was previously handled through scripts.

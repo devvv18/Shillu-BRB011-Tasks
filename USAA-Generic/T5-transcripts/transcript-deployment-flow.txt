@@ -1,0 +1,395 @@
+But once that's done, the usual step is to do a VMAS pipeline that would generate the app servers and the CTS servers in DeTest and then in Prod.
+Right now, they're not connected to anything or each other.
+They're just brand new VMs.
+Then there is a puppet step that does your puppet story.
+Because right now, you can't even SSH to those servers.
+Only DS admin.
+Certain accounts are allowed to SSH to the server and do the installation of the playbooks and everything that's required.
+So you set up that using puppet.
+So that would be another story to set up, configure the DS so that you're able to ssH to it and maybe also
+1.00
+I the Python and the other jars, t
+For ForgeRock to be able to run.
+Right now, I think we are using 17 or 21.
+I think 21.
+Sorry.
+It was 17, I believe.
+17, yeah.
+Yeah.
+I think we're using 17.
+So we'll make sure everything is set up.
+That'll be the second story.
+Install.
+Basically set up the VM correctly.
+And then once we have that, we'll...
+But that's like just a brand new VM.
+It still doesn't have the ForgeRock flavor to it.
+So that's what we call the DS install.
+Basically a story to install 800 version of DS on it.
+That'll be the third story.
+But right now, these are like all isolated servers that are not connected to each other or anything.
+They just have the Python and the Java and the SSH setups required.
+We also need a cert story so that because otherwise anyone can access these servers.
+So for us to make sure that only the right people are able to access these servers, we also...
+USA keeps track of which servers...
+Like wallets...
+What are the valid certs for the servers?
+And they keep...
+You have to renew it every few...
+Atacadanca
+mauha nt tun
+At a cadence, maybe at two years or...
+So all those have to be set up for the new servers.
+So that we can log into them and perform actions required for installation.
+So that would be the step one, I guess.
+That might have three or four or five stories to install the certs.
+And we can give you an example, charlie, for the current feature.
+Like what stories we had.
+And so we can completely, most likely, clone them for member.
+Like it would most likely translate one is to one from employee to member.
+You can change employee to member.
+But I'm just giving you a high level process overview so that you understand why it's happening like that.
+Okay -
+So right now, they are not connected to each other.
+So you will have brand new CTS servers and app servers.
+Then step two, am I going too fast or is it...
+Do you guys have any questions before I move to the next stage?
+So the cert...
+Do we have a separate team for that cert rotation that we do?
+Or do we have to install...
+So there are two steps to it.
+One step is to request cert for the new servers that you have.
+And then the second step would be to install it on the servers.
+Install on the server is a playbook that we have.
+And request is something that you request another team.
+okay •
+okay.
+And then step two would be...
+Right now...
+Basically...
+That is still later in...
+Basically you will connect...
+We'll start migrating data.
+So we'll connect all the app servers to each other.
+That's called replication.
+Basically bootstrapping the app servers.
+If you've heard the term before.
+So we'll make sure...
+That these app servers are connected to each other only.
+For now they are not still connected to...
+The old app servers.
+so they're not taking any new traffic.
+Anything that's coming is still coming through...
+Through the DS 733.
+And say for example this is a dev environment.
+so there'll be four app servers and they'll be connected to each other.
+Then there'll be a canary pipeline.
+That will connect to it.
+But they are still not connected.
+so in the next stage we'll connect these two.
+And we'll start migration of data.
+So once we bootstrap and once these servers start replicating each other.
+Nothing is being read from these servers.
+They are only reading whatever is being fed to these servers.
+AM is still connected to the old app servers.
+There'll be an equivalent CTS version here as well.
+So it will be replicated here.
+I guess this is a better.
+So once we...
+Yeah, once the step two would be maybe these servers are connected to each other now.
+They know about each other.
+And then step three would be completing the rollout.
+There's a migration that happens.
+So in this stage, zero person traffic.
+First, they'll be connected to each other.
+AM is still connected to this.
+And they're not...
+These are only read-only servers.
+Nothing is being written to them.
+Everything is being written to the old Ds servers.
+And then we eventually start connecting.
+Hey Tim.
+Just...
+Sorry, we just started because I think you already know this.
+So I thought we'll get started.
+Hope you didn't mind.
+Sorry, if anybody addressed me.
+I just got on the audio now.
+So...
+Okay, okay.
+No, I was just telling we started.
+Because this is something you know all of it.
+So...
+okay, no worry.
+Yeah, yeah.
+And maybe you can now fill in because I don't think I'm as good at explaining as you are.
+So please feel free to fill in if I'm missing something.
+Okay.
+So basically right now what's happening is we are...
+Once we start the Canary pipeline, when it's at zero percent, it is still utilizing 100%
+the 733.
+But in Praj slowly, we'll move it to five percent.
+So five...
+Like 10 percent.
+So only one tenth of the traffic will go to the app servers and the rest of it will go through.
+And these are all replicating to each other.
+So when you do a DSR that shows you the replication, you'll realize all eight of them.
+1.00
+There'll be four app servers that are with 733 and four with 8.0 and they'll be replicating to each other.
+Similarly for CTS, it will be similar.
+And then we'll slowly and steadily increase the percentage.
+We'll make sure we'll do our monitoring and make sure the introspect time...
+...still is similar.
+We don't have any impact on the authentication and authorization for the Canary pods.
+And rollback is very easy, right?
+Because if we see there is an increase in latency or availability, we straight away thengo to zero percent Canary and then divert all the traffic to
+So this approach gives us a slow and steady win.
+We try to release EAM over a period of three days.
+So this is the migration that takes three days because we want to make sure the new servers are able to handle the trafficthat the old servers were
+So we'll stay in 100 percent for a day.
+we'll see if the servers are doing fine and then we'll complete the migration.
+And then everything at this point will now point to the new servers.
+And right now, I think when you see your updates for EAM, for app servers, we've already disconnected these.
+So the final step would be now, since they are still replicating to each other, we'll disconnect these also.
+And I can show you, I guess.
+Similarly for CTS, we would do the same.
+We'll disconnect the old CTS servers from the new one.
+Since the new ones, the 8.00 are now taking updates from EAM.
+EAM is still 7.5.
+We haven't updated it.
+I think we'll get to it in next PI.
+This PI, our goal is to get member dev and test upgraded.
+The DS backend and then hopefully maybe make it to prod.
+But once we are done with the backends, all these, that's when we'll start doing an AM upgrade.
+But that's a different story.
+Yeah, we're not talking about that.
+And then once we have this, once we are in this state, once we've disconnected this, now the last story would be to retire these servers, make sur
+Sure.
+Tim, you were saying something?
+No, I think it was.
+oh, no.
+Sorry.
+I probably should mute.
+I think you're here in the background.
+oh, it's perfectly fine.
+But yeah, I think, yeah, right now.
+okay, I think I haven't talked about Prometheus in between.
+But at this point, when everything is connected to the new servers, we'll retire the old VMs.
+So that's the story right now that Tim is working on.
+And today, what we are going to do in production, maybe I can quickly go, I'll just show you, I'm not going
+to.
+okay, so these, and if I do DSR, this is what shows the replication status.
+So as you can see, these are all the eight servers.
+These four are the new ones.
+DS802, and these are the old ones.
+But they are not taking any traffic.
+Traffic is now coming through here.
+They are only just receiving the data.
+Mill care one
+securite
+I'll show you like what I mean by they're not taking any traffic.
+Let me exit from fraud.
+So today we are planning to disconnect these old and new because since it's been a week, we've been using these new servers.
+Everything looks fine.
+So now we can disconnect and get rid of the old servers.
+Sorry, Jamie was here, so.
+Okay, I'll show you.
+So these four are the old servers, OATL, 01.
+And these four are the new ones that we have right now.
+DS802.
+So as you can see, the top four, the 01 ones and the 12s are the ones that are taking connection.
+And the last four, they're not taking any connection.
+So they're only getting data replicated from the new
+servers.
+So today we are going to disconnect them.
+And then next week we're going to retire those servers.
+That'll be around like, that's the gist of stories that we would do and that's the process.
+Okay -
+High level overview.
+I think I missed the Prometheus part.
+But other than that, do you guys have any questions other than Prometheus?
+okay, so I'll just quickly go over.
+Sorry, you said something, Shilu?
+I think I'm good.
+1.00
+Okay.
+Okay.
+Yeah.
+So right now, so in this process, we also have monitoring on these servers, right?
+We use Prometheus for monitoring and making sure we are actively making sure that these servers are up and running.
+They have the right CPU and the ForgeRock process is running on them.
+So for that we use Prometheus, but we do not want, since still this process, these are not actively taking traffic.
+So we don't, so the way we do our monitoring is we have a stable and a canary variant.
+So right now, all the prod servers, initially everything that's taking traffic is stable and these would be canary.
+But we would not enable, because we don't want to deal with alerts while we are setting it up.
+Like, say for example, right now, Shilu, you're setting up the server, right?
+You do not want that, if the ForgeRock process is, you are trying to fix and make sure everything is working.
+You don't want alerts to be thrown off the server.
+So right now, we will keep them in a canary variant.
+So we'll have a story to make sure that these servers are not throwing alerts to the new servers.
+At some point, once they start taking traffic and they are ready to, like once AM is ready to be connected to them, that's when we, once we know, o
+Replication has started.
+Everything is looking good on these servers.
+And now we are ready to transition it from 0% to maybe 5% canary.
+That's when we will enable alerts, Prometheus alerts.
+So we'll have a story that will configure the alerting for these servers.
+And then eventually once we, so we will enable alerting for the old new servers here.
+And eventually now today, we are going to, since we are retiring these 733 old servers, we'll remove alerting from these servers today.
+Before we, because we are shutting down DS, so we no longer need to make sure that Ds is up and running on them.
+So we will shut down alerts because we do not want to support these servers anymore.
+We'll submit some of these servers for retirement.
+So, yeah, that like that's the high level overview.
+Like at some point, shidu, I can go over with you, like our playbook structure.
+If you, I don't know, like for Ds, like how we run, like what step, what playbook is responsible for.
+Maybe whenever you get to your IDM installation and migration, it will be more useful then.
+But till then, I wanted to give you and Charlie a brief overview.
+So that you understand what's our overall strategy.
+We want to make sure that alerts, but there are no false alerts.
+Like those, the alerts that we have should be actionable.
+Like if the servers are not doing anything and not taking traffic, we don't want to alert on them.
+Because it creates an alert fatigue and like on call or SecApps will have to look into those servers.
+So we keep our wikis up to date and involve SecApps.
+And we let them know whenever we are doing anything
+that involves creating an alert.
+So from step three to step four, we will send a lot of notification to our SecApps team because they are the ones.
+Now they need to know that these servers are retiring.
+Like they were supporting patchman maintenance and everything for our servers.
+So we keep them in loop as well.
+I was going to the patchman yesterday, but I don't think I was able to log in.
+I tried opening the same way you did it in incognito.
+I think still I'm not able to connect it.
+I think we have an AD group that I can request for access to just...
+I can check if I have something for...
+What's the one where we can see a delta?
+But let me see.
+Okay thie ic tha ana
+Can you show me your... Can you tell me your...
+It's going to be PL7W432.
+I started using...
+7W...
+7w...
+I don't know what happened.
+I can...
+Sorry, I was looking•
+7W432.
+I selected this, right?
+I don't know what happened.
+This is AMP.
+So you don't need that.
+Let me look for...
+Batch.
+No.
+Batch.
+NO •
+Doesn't look like...
+Hmm.
+But other than that, Charlie, do you have any other question while I'm looking at this?
+No, I don't think so.
+Yeah, I'm not sure if you would really need to understand this in detail, but I just wanted to give you some understanding so that it's easier to f
+Yeah, no, the overview of the actual...
+Yeah, I think the overview of the actual...
+Yeah, I think the overview...
+...process was helpful.
+Voah T don'+ nood to know cnocific dotaile of
+Yeah, I don't need to know specific details of...
+Yeah, and I think...
+Yeah, and I think...
+Tim, we still need to create some stories, right?
+That's...
+And then we can create some of the stories with you, charlie.
+Yeah, that's...
+Yeah, that's...
+That's one thing I wanted to...
+To add.
+haI'm about to share my screen with you, crlie.
+Yeah, that's one thing I wanted to add.
+I'm about to share my screen with you, charlie.
+So, I'm going to share my screen with you, charlie.
+So, I'm going to share my screen with you, charlie.
+So, I'm going to share my screen with you, charlie.
+So, I'm going to share my screen with you.
+So, I'm going to share my screen with you.
+So, I'm going to share my screen with you.
+So,
+I'm going to share my screen with you.
+So, I'm going to share my screen with you.
+So, I'm going to share my screen with you.
+So, I'm going to share my screen with you.
+so, it's helpful.
+Yeah.
+So, it's helpful.
+Yeah.
+Tim, we still need to create some stori
+That's...
+And then we can create some of the stories with you, charlie.
+Yeah, that's...
+That's one thing I wanted to add.
+I'm about to share my screen because I want to show you something related to that.
+Yeah, sure, please.
+And so, also for you, Needy, to see if you agree with the way I broke it up this time,
+because I broke it up a little bit differently than the previous effort.
+Just because the timing of things were...
+It was causing us to keep stories open a little bit longer than maybe was...
+Was conducive to our work.
+so, this is the old one.
+Or the one with the current one, I should say, because we're still working this one, right?
+So, you'll see all of our stories here.
+on this side, you'll see I've broken up.
+These are the...
+Directly across is the related...
+I mean, the story that would be the equivalent for the new effort.
+I broke it up into memcts and memconf because we did these at different times.
+And, you know, like, doing...
+Having one story was causing us to keep the story open longer to wait for the next set of servers to go.
+So, once we're done with memconf, we could close that story and then pick up the memcts one and continue.
+so, that's why I did need it.
+I broke up these here.
+Mm-hmm.
+Okay.
+Because, as you see over here, we actually did have replications that were broken up.
+And we named them differently, so they weren't even the same name.
+This one was migrate.
+This one was replicate, but they're both replicate.
+so, I just normalized that over here.
+Mm-hmm.
+And I have, for now, the placeholder in-place replication.
+I know that we do have some discussion around that to see what we're going to do there.
+Mm-hmm.
+But I could change that.
+So, the ones that are highlighted are the ones that we have to create.
+I just simply don't have them yet.
+This is for the Prometheus for the new servers.And this is for the NSF share for the memon servers.
+So, I have those to create.
+Additionally, I'm just noticing now that, oh, there's a talent batch one here, too, that I probably should call out and highlight the role.
+But, additionally, you know, we recently added the retirement story here.
+So, I need to add it to both sides here.
+So, but these are the ones that we need to create.
+This one, this one, this one.
+And then I need to add the retirement of the other servers down here.
+So, that's basically what we need to do.
+I don't know.
+I don't know, Charlie, if you want to do this, create one of these together, or if you want to navigate to this one and then try to create these an
+Either, whatever, however way you want to do it, we can do it.
+How about, if you could send me that link over?
+Sure.
+I can see you.
+Actually, no, I got it.
+37, 126.
+Yeah, and then this one over here.
+What the heck?
+Okay •
+Okay •
+This one over here is 35827.
+Send this over to.
+And so, you can actually navigate to, like for example, this story here.
+And I'll send this, I'll send this to you.
+Okay •
+so, so that you can look at this existing one and then perhaps create the new one and create the new one.
+And then if you want to get back together to discuss what you created and we can kind of like go over it with you, or like I said, we could o
+And what I'll do is, like I said, I'll add, there's still one or two more stories here, the retirement story that belongs on the old one.
+I'll create that one.
+I mean, I'll add that to here.
+And then send you the accurate listing over.
+okay.
+So again, yeah, however you guys want to run it.
+If you want to, if you want to take this and run with this, charlie.

@@ -1,0 +1,255 @@
+MIAM-37562 | SSH & Puppet Validation - My Progress Notes
+Last Updated: April 24, 2026 | Owner: Shillu Navanand
+BEFORE YOU START - WHAT IS ALL THIS? (Plain English)
+What is a VM (Virtual Machine)?
+Think of it like a computer that lives in the cloud/data center.
+It's not a physical laptop - it's a "pretend" computer running
+inside a big server at a USAA data center. We create these VMs
+to host our software (ForgeRock Directory Services).
+What is VMaas?
+"VM as a Service" - it's a USAA internal tool/pipeline that
+lets us ORDER and CREATE new VMs automatically by running a
+pipeline (like pressing a button that builds the computer for you) .
+We used this to create our 4 new prod servers.
+What is Puppet?
+Imagine you just bought a brand new laptop. It's completely empty -
+no software, no users, no settings. You'd have to manually set
+everything up.
+Puppet does that AUTOMATICALLY on our VMs the moment they are created.
+It's like a "setup script" that runs on its own and:
+- Creates the dsadmin user account (so we can log in)
+- Configures who is allowed to SSH into the server
+- Installs base software like Python and Java
+We don't have to do any of this by hand. Puppet reads a "recipe"
+from the control-repo on GitLab and applies it to the server.
+What is SSH?
+SSH = Secure Shell. It's how you remotely log into a Linux server
+from your laptop - like using Remote Desktop but for Linux, and
+it uses a key (like a digital ID card) instead of just a password.
+Without SSH access set up, you literally cannot do anything on th
+1.00
+What is an SSH Key?
+Instead of a username + password to log in, Linux servers use a
+"key pair":
+- Private key → stays on YOUR laptop (never share this)
+- Public key
+→ you give this to the server / GitLab
+(like giving someone a lock that only your key opens)
+GitLab also uses your public key to verify it's really you when
+you push/pull code.
+What is Ansible? (for later tickets)
+once the VM exists and we can SSH into it, Ansible is the tool
+that actually INSTALLS the ForgeRock DS software on it.
+Think of Puppet as "setting up the room" and Ansible as
+"bringing in all the furniture."
+Ansible uses "playbooks" - basically step-by-step instruction
+files written in a simple format (YAML) that tell the server
+what to install and configure.
+What is GitLab?
+GitLab is like Google Drive but for code. All our scripts,
+pipelines, and configuration files (including Puppet recipes
+and Ansible playbooks) live here. It also runs pipelines
+(automated jobs) for us.
+USAA's internal GitLab: https://prodgitlab.usaa.com
+What is Jira?
+Jira is the tool we use to track work. Every task is a "ticket"
+or "story" with a number like MIAM-37562. You update the ticket
+as you make progress and close it when done.
+OUR 4 SERVERS (already created via vMaas
+prodmbrid01latl « Prod | Location: ATL (Atlanta)
+prodmbrid01lsat « Prod | Location: SAT (San Antonio)
+prodmbrid02latl « Prod | Location: ATL (Atlanta)
+prodmbrid02lsat « Prod | Location: SAT (San Antonio)
+Pipeline that created them:
+https://prodgitlab.usaa.com/grp-forgerock-vmaas/directory-services/-/pipelines/22809964
+OVERALL TICKET JOURNEY (Big Picture)
+[X
+DONE] MIAM-37561 → Create the VMs using Maas pipeline
+NOW ] MIAM-37562 → Validate Puppet created dsadmin + SSH works
+NEXT] MIAM-37563 → Install DS (ForgeRock) via Ansible + validate replication
+NEXT] MIAM-37564 → Validate connectivity (Apache Directory Studio / ldapsearch)
+MIAM-37562 - STEP BY STEP GUIDE
+STEP 1 - Add SSH Public Key to GitLab
+DONE
+WHY: GitLab needs your public key to know it's YOU when you
+connect to servers or interact with repos securely.
+WHAT WAS DONE:
+- Generated SSH key pair on local machine (ed25519 type)
+- Added the public key to GitLab at:
+https://prodgitlab.usaa.com/-/user_settings/ssh_keys
+PUBLIC KEY ADDED:
+ssh-ed25519 AAAAC3NzaC11ZDI1NTE5AAAAIDruMhSTtkzr/130QCJGPviw78y194k73jLqcJBOsDsZ shillu.navanand@usaa.com
+NOTE: Private key stays on your laptop. NEVER share it.
+STEP 2 - Verify Puppet Ran on the VMS
+TODO
+WHY: After a VM is created, Puppet auto-runs and sets it up.
+We need to confirm Puppet finished successfully and created
+the dsadmin account on all 4 servers.
+IMPORTANT - TWO DIFFERENT THINGS (easy to confuse):
+A) The control-repo on GitLab
+→ This is just the CODE (the "recipe") that tells Puppet
+WHAT to do. Like a cookbook. You don't need to search
+through it right now. The code is already there.
+You were on the RIGHT page but looking at the wrong thing.
+B)
+The Puppet Enterprise (PE) Console * THIS IS WHAT YOU NEED
+→ This is a SEPARATE website (not GitLab) where you can
+see if Puppet actually RAN on each server and whether
+it succeeded or failed. Think of it like a dashboard/report.
+ABOUT THE PIPELINE YOU SAW in GitLab (defer, •post, external,
+"Defer to Puppet CD", "cd-pe/stage-1"
+"cd-pe/stage-1", secret _detection etc.):
+→ That pipeline is just deploying the Puppet CODE itself.
+It's not related to your servers directly.
+→ The last job "cd-pe/stage-1" - when you clicked it and
+it asked for LDAP credentials - THAT is actually the
+Puppet Enterprise Console login!
+→ Log in there with your standard USAA LDAP credentials
+(same username/password you use to log into your work laptop
+or other USAA internal tools).
+HOW TO CHECK IF PUPPET RAN ON YOUR SERVERS:
+1. Click on the "cd-pe/stage-1" job in that GitLab pipeline
+OR ask Tim/Nidhi for the direct PE Console URL
+2. Log in with your USAA LDAP credentials (AD credentials)
+3. Once inside the Puppet Enterprise Console:
+- On the TOP navigation bar look for "Nodes" tab
+(sometimes listed as "Inventory" or "Node Manager")
+- In the search/filter box type "mbrid" to find your servers
+- If you don't see them, try filtering Environment = "production"
+TIP: If you cannot find the servers at all, this is
+NORMAL for brand new VMs. It means Puppet has not
+run yet oR they haven't checked in.
+→ Ping Tim or Nidhi: "I logged into PE Console but
+can't find prodmbrid* nodes - have they checked in yet?"
+4. You want to see: "Unchanged" or "Changed" with no failures
+"Changed" or "Unchanged" = Puppet ran fine
+X "Failed" = something went wrong, ping Tim or Nidhi
+X Not found at all = Puppet hasn't run yet, ping Tim
+NOTE: If you can't log into PE Console, you may need AD group
+access (same groups required for PasswordSafe in Step 3):
+ASG_PSM_DEDICATEDACCOUNTS and ASG_PSM_ForgeRockIAMPlatform
+SERVERS TO CHECK:
+- prodmbrid01latl
+- prodmbrid01lsat
+- prodmbrid02latl
+- prodmbride2lsat
+STEP 3 - SSH via Passwordsafe
+TODO
+WHY: You CANNOT SSH directly from your laptop to prod servers.
+USAA uses PasswordSafe as a secure "lobby" you must go
+through first. Think of it like a security checkpoint -
+you sign in there, get verified, then it lets you through
+to the actual server you need.
+1.00
+Wiki (written by Nidhi - ask her directly too):
+https://wiki.usaa.com/spaces/PI/pages/953421896/How+To+Login+to+Forgerock+Admin+UI+DS+servers+from+PasswordSafe
+— PREREQUISITES (sort these out FIRST)
+A) You need to be in BOTH these AD groups:
+- ASG_PSM_DEDICATEDACCOUNTS
+- ASG_PSM_ForgeRockIAMPlatform
+→ If not in them, request access via manager or IT portal
+B) Get a valid Prod Action Request (RITM number):
+→ Go to: http://go/prodactionsportal OR go/prodaction
+→ Raise a request (example: RITM5046661)
+Use RITM number - NOT REQ number (REQ won't work!)
+→ OR if there's an active Change Request, ask the Change
+Implementer to create a CTASK for you under it
+HOW TO GET INTO A DS SERVER (step by step)
+1. Log into PasswordSafe
+(ask Tim or Nidhi for the direct URL)
+2. ONE-TIME SETUP - Add the ctrl server to Favorites:
+- Use Quick Filter, search "dsadmin" under Applications
+- Find "prodfrctl01lsat" and star it to favorite it
+3. Select "prodfrctl01lsat" from your Favorites
+→ This is your JUMP/CONTROL server - your entry point.
+You land here first, then sSH to the actual DS servers.
+DOll
+4. Click "ACCESS" on the rightmost column
+5. Fill in:
+- RITM number or Change number
+- Reason for access
+- Session length (how long you need)
+→ Click "start Application Session"
+→ Choose your preferred terminal when prompted
+6. You are now inside prodfrctl01lsat (the jump server)
+From here, SSH to your member DS servers:
+ssh prodmbrid01latl
+ssh prodmbrid01lsat
+ssh prodmbridozlatl
+ssh prodmbrid02lsat
+(No full domain name needed - you're already inside the network)
+7. For Ansible work later (MIAM-37563), navigate to:
+cd /forgerock/ansible-automation
+— PLAIN ENGLISH: What is prodfrctl01lsat?
+It's a "jump server" - like a secure lobby.
+You can't walk directly into the server room (prod DS servers).
+You check in at the lobby (prodfrctl01lsat via PasswordSafe),
+then from there you can walk to any DS server you need.
+STEP 4 - SSH Into Each Server
+TODO
+WHY: This is the actual validation - if ssH works, it means
+Puppet successfully created dsadmin and configured access.
+HOW: Open PowerShell and run:
+ssh dsadmin@prodmbrid01latl.usaa.com
+ssh dsadmin@prodmbrid01lsat.usaa.com
+ssh dsadmin@prodmbride2latl.usaa.com
+ssh dsadmin@prodmbrid021sat.usaa.com
+If it connects =
+Puppet worked!
+If it refuses = X Puppet may not have run - check Step 2 again
+STEP 5 - Verify Server Setup
+& TODO
+WHY: Once inside each server, confirm the basics are in place
+before handing off to Ansible for DS installation.
+ONCE LOGGED IN, RUN THESE COMMANDS:
+id dsadmin
+Java - version
+→ confirms dsadmin user exists
+→ should show Java 17
+.veve
+python3 --version → confirms Python is installed
+hostname
+→ confirms you're on the right server
+Copy/screenshot the output for ticket evidence.
+STEP 6 - Update Jira & Notify Team
+TODO
+HOW:
+1. Go to MIAM-37562 in Jira Cloud
+https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-37562
+2. Add a comment with:
+- Screenshot or output from Step 5
+- Status: all 4 servers SSH'd successfully, dsadmin confirmed
+3. Post update in Slack channel: CLLMBPXJT
+4. Close the ticket
+PEOPLE TO GO TO FOR HELP
+Tim
+Nidhi
+Andrew
+Travis
+→ Puppet, Ansible, playbook structure, Jira stories
+→ Same as Tim, can guide on DS install process
+→ Manager/Lead, overall direction
+→ Created the Jira stories, team process questions
+Slack channels to watch:
+CLLMBPXJT
+DOAPL3KK4LF
+→ Main team channel
+→ Direct discussions (seen in notes)
+KEY LINKS
+GitLab SSH Keys settings:
+https://prodgitlab.usaa.com/-/user_settings/ssh_keys
+PasswordSafe / dsadmin login wiki:
+https://wiki.usaa.com/spaces/PI/pages/953421896/How+To+Login+to+Forgerock+Admin+UI+DS+servers+from+PasswordSafe
+Puppet control-repo:
+https://prodgitlab.usaa.com/grp-ops-puppet/control-repo
+Maas directory-services project:
+https://prodgitlab.usaa.com/grp-forgerock-vmaas/directory-services
+Ansible automation repo:
+https://prodgitlab.usaa.com/grp-inf-forgerock/ansible-automation
+DS Upgrade Guide (wiki):
+https://wiki.usaa.com/spaces/PI/pages/3808824081/Directory+Services+DS+Upgrade+Guide
+Jira Stories:
+MIAM-37561: https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-37561
+MIAM-37562: https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-37562
+MIAM-37563: https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-37563
+MIAM-37564: https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-37564

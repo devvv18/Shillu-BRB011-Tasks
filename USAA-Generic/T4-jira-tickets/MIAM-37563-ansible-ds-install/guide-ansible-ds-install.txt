@@ -1,0 +1,46 @@
+================================================================================
+MIAM-37563 | INSTALL DS 8.0.2 VIA ANSIBLE + REPLICATION
+Status: NEXT (Starts after MIAM-37562 is closed)
+Jira: https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-37563
+================================================================================
+
+WHAT THIS TICKET IS:
+Use Ansible to install ForgeRock DS 8.0.2 on all 4 new member servers, 
+then connect them to each other (replication) so they all share the same 
+data and stay in sync.
+
+PRE-REQUISITES (Before starting):
+[ ] MIAM-37562 fully closed and confirmed.
+[ ] Change Request (CHG) raised and in "Implement" state.
+    - Ask Tim or Andrew how to raise this.
+[ ] PasswordSafe access active (RITM5069017).
+
+STEPS:
+1. [ ] SSH into prodfrctl01lsat via PasswordSafe.
+2. [ ] Navigate to the Ansible directory:
+       cd /forgerock/ansible-automation
+3. [ ] Get the exact playbook command from Tim or Nidhi.
+4. [ ] Run the DS 8.0.2 install playbook with your CHG number:
+       ansible-playbook ... -e change_id=CHG_XXXXXXX
+5. [ ] Verify DS 8.0.2 is installed on all 4 servers.
+6. [ ] Run replication bootstrap to connect the cluster.
+7. [ ] Verify replication is functioning (all servers in sync).
+8. [ ] Add results/screenshots to Jira MIAM-37563.
+9. [ ] Mark ticket Done in Jira.
+10. [ ] Post in Slack channel #CLLM3PXJT:
+       "MIAM-37563 complete. DS 8.0.2 installed. Replication verified."
+
+KEY RULE - PROD ANSIBLE:
+Every Ansible playbook run in production MUST include:
+-e change_id=CHG_XXXXXXX
+
+Without a valid CHG in the "Implement" state, the playbook will refuse to 
+run. This is a USAA hard security control.
+
+USEFUL LINKS:
+• Ansible Repo: https://prodgitlab.usaa.com/grp-inf-forgerock/ansible-automation
+• Jira Story:  https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-37563
+
+NOTES / UPDATES:
+(Add your progress notes here...)
+================================================================================

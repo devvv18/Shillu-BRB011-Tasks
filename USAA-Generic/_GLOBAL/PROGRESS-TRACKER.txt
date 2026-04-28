@@ -1,0 +1,166 @@
+================================================================================
+GLOBAL PROGRESS TRACKER
+Project: USAA ForgeRock DS Upgrade (Member Servers)
+Owner: Shillu Navanand
+Last Updated: April 25, 2026
+================================================================================
+
+PURPOSE:
+Single source of truth for ALL task and ticket status. Update this file 
+every time something changes.
+
+HOW TO USE THIS FILE:
+- Update the [ ] to [x] when a step is complete.
+- Update STATUS line when a task/ticket changes state.
+- Date your notes: [Apr 25] Like this.
+
+STATUS KEY:
+DONE        = Fully complete, ticket closed.
+IN PROGRESS = Actively working on it right now.
+NEXT        = Ready to start, waiting for previous to finish.
+FUTURE      = Planned but not started yet.
+X BLOCKED   = Cannot proceed, waiting on something external.
+
+--------------------------------------------------------------------------------
+SECTION 1: TASKS OVERVIEW
+--------------------------------------------------------------------------------
+
+TASK 1: Watch DS Upgrade Overview Recording
+STATUS: DONE
+Folder: T1-learning/
+[x] Watched DS Upgrade Overview Zoom recording.
+[x] Understood the 4-phase upgrade journey.
+Notes: [Apr 25] Recording link + passcode saved in tasks-overview.txt.
+
+TASK 2: Go Through Repos and Tools
+STATUS: DONE
+Folder: T1-learning/
+[x] Reviewed VMaaS repo and docs.
+[x] Reviewed Puppet control-repo.
+[x] Reviewed Ansible automation repo.
+[x] Reviewed MGS wiki.
+Notes: [Apr 25] All repo links saved in REFERENCE/project-complete-reference.txt.
+
+TASK 3: Deploy New VMs (VMaaS Pipeline)
+STATUS: DONE
+Folder: T4-jira-tickets/MIAM-37561-create-vms/
+[x] Created feature branch from master in VMaaS repo.
+[x] Triggered pipeline with TGT_CONFIGS for all 4 servers.
+[x] Completed attestation / manual review.
+[x] Opened MR → got 2 approvals → merged.
+[x] Verified VMs created in Puppet console.
+Servers created:
+[x] prodmbrid01latl (Atlanta)
+[x] prodmbrid01lsat (San Antonio)
+[x] prodmbrid02latl (Atlanta)
+[x] prodmbrid02lsat (San Antonio)
+Pipeline: https://prodgitlab.usaa.com/grp-forgerock-vmaas/directory-services/-/pipelines/22809964
+
+TASK 4: Jira Ticket Work (MIAM-37561 to 37564)
+STATUS: IN PROGRESS
+Folder: T4-jira-tickets/
+(See Section 2 below for ticket-by-ticket breakdown.)
+
+TASK 5: Meeting Transcripts & Knowledge Transfer
+STATUS: ONGOING
+Folder: T5-transcripts/
+[x] transcript-deployment-flow.txt
+[x] transcript-prometheus-change.txt
+[x] transcript-retiring-servers.txt
+Notes: This folder is used to archive important process discussions.
+
+--------------------------------------------------------------------------------
+SECTION 2: JIRA TICKETS
+--------------------------------------------------------------------------------
+
+MIAM-37561 | Create prodmbrid* VMs via VMaaS
+STATUS: DONE
+Folder: T4-jira-tickets/MIAM-37561-create-vms/
+Jira: https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-37561
+[x] MaaS pipeline triggered.
+[x] All 4 prodmbrid* VMs created.
+[x] MR created, approved, merged.
+[x] VMs visible in Puppet console.
+[x] Jira ticket marked Done.
+
+MIAM-37562 | Validate Puppet dsadminp + SSH works
+STATUS: IN PROGRESS
+Folder: T4-jira-tickets/MIAM-37562-ssh-puppet-validation/
+Jira: https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-37562
+[x] SSH key added to GitLab.
+[x] Prod access request raised (REQ3295102 → RITM5069017).
+[x] RITM confirmed and PasswordSafe session tested.
+Validation Status (via prodfrctl01lsat):
+[x] prodmbrid01lsat - hostname, dsadminp, java 17, python3 confirmed.
+[x] prodmbrid01latl - Fixed "Host key verification" error. Confirmed.
+[ ] prodmbrid02lsat - TODO
+[ ] prodmbrid02latl - TODO
+Closing steps:
+[ ] All 4 servers validated and screenshots taken.
+[ ] Comment added to Jira MIAM-37562 with results.
+[ ] Ticket marked Done in Jira.
+
+MIAM-37563 | Install DS 8.0.2 via Ansible & Validate Replication
+STATUS: NEXT
+Folder: T4-jira-tickets/MIAM-37563-ansible-ds-install/
+Jira: https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-37563
+Pre-requisites:
+[ ] MIAM-37562 fully closed.
+[ ] Change Request (CHG) raised and in "Implement" state.
+Steps:
+[ ] SSH into prodfrctl01lsat via PasswordSafe.
+[ ] Run: cd /forgerock/ansible-automation
+[ ] Run DS install playbook with: -e change_id=CHG_XXXXXXX
+[ ] Verify DS 8.0.2 installed on all 4 servers.
+[ ] Connect servers to each other (replication bootstrap).
+[ ] Verify replication is working across the cluster.
+[ ] Close Jira ticket and notify Slack channel CLLMBPXJT.
+
+MIAM-37564 | Validate Connectivity via ldapsearch/ADS
+STATUS: FUTURE
+Folder: T4-jira-tickets/MIAM-37564-validate-connectivity/
+Jira: https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-37564
+Pre-requisites:
+[ ] MIAM-37563 fully closed.
+Steps:
+[ ] Use ldapsearch or Apache Directory Studio to query DS servers.
+[ ] Confirm data is returned correctly from all 4 servers.
+[ ] Close Jira ticket and notify Slack channel CLLMBPXJT.
+
+--------------------------------------------------------------------------------
+SECTION 3: UPCOMING PROJECT PHASES
+--------------------------------------------------------------------------------
+
+TASK 6: Canary Rollout (Phase 3 of Upgrade)
+STATUS: FUTURE
+Folder: T6-canary-rollout/
+Description: Gradually shift live member user traffic from old servers 
+(7.3.3) to new ones (8.0.2). Rollout: 0% → 5% → 10% → 100%.
+
+TASK 7: Retire Old Member DS Servers (Phase 4 of Upgrade)
+STATUS: FUTURE
+Folder: T7-retire-old-servers/
+Description: Shut down old DS 7.3.3 servers, remove from Prometheus monitoring, 
+notify SecApps team, and decommission infrastructure.
+
+--------------------------------------------------------------------------------
+SECTION 4: BLOCKERS AND PENDING ITEMS
+--------------------------------------------------------------------------------
+
+[ ] prodmbrid* servers not in PasswordSafe individually.
+    Workaround: Use prodfrctl01lsat (Jump Server).
+    Action: Request added at http://go/soarpsrequest/ (Andrew guiding).
+
+[ ] CHG number needed for MIAM-37563.
+    Action: Raise Change Request and get it to "Implement" state.
+
+--------------------------------------------------------------------------------
+SECTION 5: CHANGE LOG (HISTORY)
+--------------------------------------------------------------------------------
+
+[Apr 25] Workspace reorganized with proper folder and file naming.
+[Apr 25] prodmbrid01lsat & latl validation complete.
+[Apr 25] REQ3295102 raised for prod access. RITM5069017 received.
+[Apr 24] All 4 prodmbrid* VMs created via VMaaS. MIAM-37561 closed.
+[Apr 24] SSH key added to GitLab for Shillu.
+================================================================================

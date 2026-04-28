@@ -1,0 +1,217 @@
+Task 1
+Watch the DS Upgrade Overview recording to understand the project.
+Shareable link: https://usaa.zoom.us/rec/share/0MabmTx38xAUAyMXiPk-n4TDa54Yt7zHeMgz65rvOBGXuJWg0Nuqrcx50ZV6H1LS.76FBiaAkuJcd8gCu
+Passcode: y5m$FK6$
+Directory services upgrade - High level overview:
+1. Deploy New VMs
+2. Migrate Data
+3. Complete Canary Rollout- Remove altering for old servers
+4. Retire Old VMs
+https://wiki.usaa.com/spaces/PI/pages/3808824081/Directory+Services+DS+Upgrade+Guide
+
+
+
+
+
+
+Task 2
+Go through the Repos to understand the flow and refer to videos
+There are Different folders in chrome tab
+• Development documents Vmaas
+i. https://wiki.usaa.com/spaces/ITOPS/pages/1516750600/VMaaS+-+Getting+Started+Part+4
+ii. https://wiki.usaa.com/spaces/PC/pages/2756916138/Self+Provisioning+Virtual+Machines+in+SNOW+-+GUI
+iii. https://wiki.usaa.com/spaces/PI/pages/2756914719/Authentication+Platform+Topology
+iv. https://wiki.usaa.com/spaces/SECAPPS/pages/861359677/ForgeRock+Directory+Server+Pre-Validation+Post-Validation
+• MGS Repos
+https://wiki.usaa.com/spaces/PI/pages/510850251/Metal+Gear+Solid
+https://prodgitlab.usaa.com/grp-mgs-talon/mgs-script-utilities
+Repos
+https://prodgitlab.usaa.com/grp-forgerock-maas/directory-services
+https://prodgitlab.usaa.com/grp-cis-vmaas-dev
+https://prodgitlab.usaa.com/grp-inf-forgerock/ansible-automation
+https://prodgitlab.usaa.com/grp-ops-puppet/control-repo
+• Links
+https://wiki.usaa.com/spaces/PI/pages/3989873207/Employee+and+Member+DS+8.0.2+Upgrade+Features
+
+
+
+
+
+Task 3
+Deploy New VMs:
+Refer to Repos:
+https://wiki.usaa.com/spaces/ITOPS/pages/1516750600/VMaaS+-+Getting+Started+Part+4
+Trigger pipeline from (https://prodgitlab.usaa.com/grp-forgerock-maas/directory-services/-/tree/master?ref_type=heads)
+Flow - Maas Project
+https://usaa-tech.slack.com/archives/DAPL3KK4LF/p1775587248122969
+Flow:
+Build Pipeline
+Create a feature Branch in master (clone it because after MR feature branch will be deleted)
+Input Variable key is always TGT_CONFIGS
+Input Variable Value is the servers we are targeting to hit new pipeline
+[Pipeline Runs]
+Attestation manual review -CONFIRMATION YES
+RUN
+check servers sizing
+dempcts121sat (puppet)
+blueprint
+APPLY REVIEW (Manual intervention OPTIONAL) SO JUST RUN 10-15 mins run
+I need to review within 24 hours before pushing to MR, it will be temp for 24hrs for validation.
+MR:
+same page click on MR on top to left
+Click on New MR
+Source Branch is the Vmaas tutorial or whatever we selected for triggering pipeline
+Target Branch is Master
+Compare and continue
+Add Comments and make changes in fields
+FIELD TITLE [STORY MIAM story no assigned to you] TITLE [DIRECTORY SERVIVE EMPLOYEE UPGRADE TO 8.0.2]
+For exp: MIAM-38005 DIRECTORY SERVICE EMPLOYEE UPGRADE TO 8.0.2
+Description- (refer to the old one for reference and add your note)
+hit new merge request (new page-pipeline is running) click
+once created will show changes files on left
+below 100 lines post on mgs-gitlab channel above 100 go to MR party for approval.
+Send URL in MGS-GitLab for MR approvals.
+After 2 approvals Merge button needs to be pushed (not you Queue manager or other team folks can push)
+Then Pipeline runs and goes into master
+And merge will be completed. Go to puppet and check if VM's are created (using deployment name in plan review like deployment name like dmbrid88962a02latl)
+Note: (push to GitLab if team does not agree on Merge) will rest and
+Prod:
+ds : (https://prodgitlab.usaa.com/grp-forgerock-vmaas)
+Go to code-tags-create tag
+tag name- (. GitLab-yml) ( whatever is latest in tags) (https://wiki.usaa.com/spaces/PI/pages/510850273/MGS+-+Definition+of+Done+and+Team+Agreement)
+Create from is always Master
+Description: tagging master branch to deploy the IDM changes specified in story (MIAM-xxx)
+Create tag-will create master pipeline and will push to prod (diff depends based on projects)
+https://usaa-tech.slack.com/archives/DAPL3KK4LF/p1776353101121899
+Note: Tag for VmaaS -during day (check traffic)
+
+
+
+METAL GEAR SOLID (MGS) PROJECT
+go/mgswiki
+Task 1
+Watch the DS Upgrade Overview recording to understand the project.
+Shareable link: https://usaa.zoom.us/rec/share/@MabmTx38xAUAyMXiPk-n4TDa54Yt7zHeMgz65rv0BGXuJWg0Nuqrcx50ZV6H1LS.76FBiaAkuJcd8gCu
+Passcode: y5m$FK6$
+Directory services upgrade - High level overview:
+1. Deploy New VMs
+2. Migrate Data
+3. Complete Canary Rollout- Remove altering for old servers
+4. Retire Old VMs
+https://wiki.usaa.com/spaces/PI/pages/3808824081/Directory+Services+DS+Upgrade+Guide
+
+
+Task 2
+Go through the Repos to understand the flow and refer to videos
+There are Different folders in chrome tab
+• Development documents Vmaas
+i. https://wiki.usaa.com/spaces/ITOPS/pages/1516750600/VMaaS+-+Getting+Started+Part+4
+ii. https://wiki.usaa.com/spaces/PC/pages/2756916138/Self+Provisioning+Virtual+Machines+in+SNOW+-+GUI
+iii.
+https://wiki.usaa.com/spaces/PI/pages/2756914719/Authentication+Platform+Topology
+iv. https://wiki.usaa.com/spaces/SECAPPS/pages/861359677/ForgeRock+Directory+Server+Pre-Validation+Post-Validation
+• MGS Repos
+https://wiki.usaa.com/spaces/PI/pages/510850251/Metal+Gear+Solid
+https://prodgitlab.usaa.com/grp-mgs-talon/mgs-script-utilities
+Repos
+https://prodgitlab.usaa.com/grp-forgerock-vmaas/directory-services
+https://prodgitlab.usaa.com/grp-cis-vmaas-dev
+https://prodgitlab.usaa.com/grp-inf-forgerock/ansible-automation
+https://prodgitlab.usaa.com/grp-ops-puppet/control-repo
+• Links
+https://wiki.usaa.com/spaces/PI/pages/3989873207/Employee+and+Member+DS+8.0.2+Upgrade+Features
+Other
+
+
+
+Task 3
+Deploy New VMs:
+Refer to Repos:
+https://wiki.usaa.com/spaces/ITOPS/pages/1516750600/VMaaS+-+Getting+Started+Part+4
+Trigger pipeline from (https://prodgitlab.usaa.com/grp-forgerock-maas/directory-services/-/tree/master?ref_type=heads)
+Flow - VMaaS Project
+https://usaa-tech.slack.com/archives/DAPL3KK4LF/p1775587248122969
+
+
+Flow:
+Build Pipeline
+Create a feature Branch in master (clone it because after MR feature branch will be deleted)
+Input Variable key is always TGT_ CONFIGS
+Input Variable Value is the servers we are targeting to hit new pipeline
+[Pipeline Runs]
+Attestation manual review -CONFIRMATION YES
+RUN
+check servers sizing
+dempcts121sat (puppet)
+blueprint
+APPLY REVIEW (Manual intervention OPTIONAL) SO JUST RUN 10-15 mins run
+I need to review within 24 hours before pushing to MR, it will be temp for 24hrs for validation.
+MR:
+same page click on MR on top to left
+Click on New MR
+Source Branch is the Vmaas tutorial or whatever we selected for triggering pipeline
+Target Branch is Master
+Compare and continue
+Add Comments and make changes in fields
+FIELD TITLE [STORY MIAM story no assigned to you] TITLE [DIRECTORY SERVIVE EMPLOYEE UPGRADE TO 8.0.2]
+For exp: MIAM-38005 DIRECTORY SERVICE EMPLOYEE UPGRADE TO 8.0.2
+Description- (refer to the old one for reference and add your note)
+hit new merge request (new page-pipeline is running) click
+once created will show changes files on left
+below 100 lines post on mgs-gitlab channel above 100 go to MR party for approval.
+Send URL in MGS-GitLab for MR approvals.
+After 2 approvals Merge button needs to be pushed (not you Queue manager or other team folks can push)
+Then Pipeline runs and goes into master
+And merge will be completed. Go to puppet and check if VM's are created (using deployment name in plan review like deployment name like dmbrid88962a021atl)
+Note: (push to GitLab if team does not agree on Merge) will rest and
+
+Prod:
+ds : (https://prodgitlab.usaa.com/grp-forgerock-vmaas)
+Go to code-tags-create tag
+tag name- (- GitLab-yml) ( whatever is latest in tags) (https://wiki.usaa.com/spaces/PI/pages/510850273/MGS+-+Definition+of+Done+and+Team+Agreement)
+Create from is always Master
+Description: tagging master branch to deploy the IDM changes specified in story (MIAM-xxx)
+Create tag-will create master pipeline and will push to prod (diff depends based on projects)
+https://usaa-tech.slack.com/archives/DeAPL3KK4LF/p1776353101121899
+Note: Tag for VmaaS -during day (check traffic)
+
+Task 4- Jira Tickets
+https://usaa-tech.slack.com/archives/COAP9BFSJF7/p1774634164571279
+I'm thinking:
+• Provision VMs using VMaaS
+1) Use VMaaS pipeline to create prodmbrid* VMs.
+Need to clone gitlab to git local because when VMs are created feature branch will be temp deleted after 24 hrs always need to have a copy on git local
+Triggered VMs - pipelines for prodmbrid01latl, prodmbrid01lsat (Completed)
+Prodmbrid021atl, prodmbrid021atl (Completed)
+
+
+https://prodgitlab.usaa.com/grp-forgerock-vmaas/directory-services/-/pipelines/22809964
+2) Validate puppet profile automatically creates dadmin and we can ssh to those boxes
+i. https://usaa-tech.slack.com/archives/CLLM3PXJT/p1776886616924949?thread_ts=1776803887.642829&cid=CLLMBPXJT
+ii. https://usaa-tech.slack.com/archives/D0APL3KK4LF/p1776276085745799
+iii.
+https://usaa-tech.slack.com/archives/CLLMBPXJT/p1776803887642829
+iv. https://wiki.usaa.com/spaces/PI/pages/953421896/How+To+Login+to+Forgerock+Admin+UI+DS+servers+from+PasswordSafe
+v. https://prodgitlab.usaa.com/-/user
+_settings/ssh_keys
+vi. https://prodgitlab.usaa.com/gr*p-ops-puppet/control-repo
+vii.
+https://usaa-tech.slack.com/archives/DAPL3KK4LF/p1776276085745799 (discussed)
+viii. https://wiki.usaa.com/spaces/IAO/pages/239864457/BeyondTrust+PasswordSafe#BeyondTrustPasswordSafe-HowtoRequestPasswordSafeAccess
+ix. http://go/soarpsrequest/
+
+Use Ansible to install DS profile on those servers
+Submitted : 2026-04-24 09:47:13
+Request Number : REQ3295102
+Estimated Delivery : 2026-04-26
+3)
+Ensure replication is functioning
+4) Verify can connect using apache directory studio and/or ldapsearch binary from box
+Will need to pick stories from refinement and backlog when needed. Need to close the above 3 pending tickets at the earliest possible.
+
+
+Task 5
+Refer Zoom Recordings to understand the flow (demonstrated with emp servers) under Projects.
+Prometheus changes
+•
+Retiring old servers

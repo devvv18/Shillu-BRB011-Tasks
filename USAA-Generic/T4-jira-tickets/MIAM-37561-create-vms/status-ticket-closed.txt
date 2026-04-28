@@ -1,0 +1,25 @@
+================================================================================
+JIRA TICKET: MIAM-37561
+TITLE:       Create prodmbrid* VMs via VMaaS
+STATUS:      COMPLETE
+CLOSED DATE: April 24, 2026
+================================================================================
+
+DESCRIPTION:
+All 4 production member Directory Service (DS) servers were successfully 
+provisioned via the VMaaS pipeline. This ticket is officially closed.
+
+SERVERS PROVISIONED:
+• prodmbrid01latl (Atlanta)
+• prodmbrid01lsat (San Antonio)
+• prodmbrid021atl (Atlanta)
+• prodmbrid021sat (San Antonio)
+
+REFERENCE LINKS:
+• VMaaS Pipeline: https://prodgitlab.usaa.com/grp-forgerock-vmaas/directory-services/-/pipelines/22809964
+• Jira Ticket:    https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-37561
+
+NOTES:
+- Feature branch was merged into master.
+- VMs verified as active in the Puppet console.
+- No further actions required for this ticket.

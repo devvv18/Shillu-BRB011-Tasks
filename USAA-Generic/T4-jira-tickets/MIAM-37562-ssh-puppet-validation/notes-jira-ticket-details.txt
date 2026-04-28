@@ -1,0 +1,31 @@
+Task 4- Jira Tickets
+https://usaa-tech.slack.com/archives/COAP9BFSJF7/p1774634164571279
+I'm thinking:
+• Provision VMs using VMaas
+1) Use VMaas pipeline to create prodmbrid* vMs.
+Need to clone gitlab to git local because when VMs are created feature branch will be temp deleted after 24 hrs always need to have a copy on git lo
+Triggered VMs - pipelines for prodmbrid01latl, prodmbrid01lsat (Completed)
+1.00
+Prodmbrid02latl, prodmbrid02latl (Completed)
+https://prodgitlab.usaa.com/grp-forgerock-maas/directory-services/-/pipelines/22809964
+2) Validate puppet profile automatically creates dsadmin and we can ssh to those boxes
+i. https://usaa-tech.slack.com/archives/CLLMBPXJT/p1776886616924949?thread_ts=1776803887.642829&cid=CLLMBPXJT
+ii. https://usaa-tech.slack.com/archives/D0APL3KK4LF/p1776276085745799
+iii.
+https://usaa-tech.slack.com/archives/CLLM3PXJT/p1776803887642829
+iv. https://wiki.usaa.com/spaces/PI/pages/953421896/How+To+Login+to+Forgerock+Admin+UI+DS+servers+from+PasswordSafe
+v.
+https://prodgitlab.usaa.com/-/user_settings/ssh_keys
+vi. https://prodgitlab.usaa.com/gr*p-ops-puppet/control-repo
+vii.
+https://usaa-tech.slack.com/archives/D0APL3KK4LF/p1776276085745799 (discussed)
+viii. https://wiki.usaa.com/spaces/IAO/pages/239864457/BeyondTrust+PasswordSafe#BeyondTrustPasswordSafe-HowtoRequestPasswordSafeAccess
+ix. http://go/soarpsrequest/
+Use Ansible to install DS profile on those servers
+Submitted : 2026-04-24 09:47:13
+Request Number : REQ3295102
+Estimated Delivery : 2026-04-26
+updated
+3) Ensure replication is functioning
+4) Verify can connect using apache directory studio and/or ldapsearch binary from box
+will need to pick stories from refinement and backlog when needed. Need to close the above 3 pending tickets at the earliest possible.

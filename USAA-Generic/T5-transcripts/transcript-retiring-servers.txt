@@ -1,0 +1,11 @@
+
+I put the change in implement, and I am in password safe now and about to start the session out of password safe. Instead of doing systemcti start, "
+First, we'll run the cleanup script. The profile equals stop because we're stopping the old servers. The old servers are identified by add-on EMP CTS
+Were now ready for cleanup. We run the cleanup for the Canary servers, and we added the change ID, which ran fine. The next step was to verify that
+Now, we'll proceed to the step where we disable the LDAPS web port on the servers and shut them down. Instead of doing a rolling restart or a system
+We can verify the active connection count by checking the status. If you don't see any active connections,
+1.00
+Nit's safe to restart. After verif
+At this point, we restarted the servers and verified that theyre no longer taking traffic. We move to the next one and repeat the same process, firs
+Once were done, we need to check the dashboard to ensure the servers are not taking traffic and verify that the availability is still good. The int
+For best practices, we should wait until the morning to close the change, just in case any issues arise overnight, so we can respond quickly. Once i

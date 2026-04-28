@@ -1,0 +1,37 @@
+================================================================================
+PUPPET NODE DETAILS: prodmbrid01latl.usaa.com
+Updated: April 25, 2026
+================================================================================
+
+--- NODE INFORMATION ---
+Hostname:        prodmbrid01latl.usaa.com
+Environment:     production
+Agent Version:   8.16.0
+Client Version:  8.16.0
+OS Type:         Red Hat Enterprise Linux (implied)
+
+--- HARDWARE SPECS (DISK) ---
+sda:  60.00 GiB (Virtual disk, VMware)
+sdb:  14.00 GiB (Virtual disk, VMware)
+sdc: 300.00 GiB (Virtual disk, VMware)
+sdd: 100.00 GiB (Virtual disk, VMware)
+
+--- DMI / VM INFORMATION ---
+BIOS Release:    01/18/2025
+BIOS Vendor:     VMware, Inc.
+BIOS Version:    VMW201.00V.24504846.B64.2501180339
+Manufacturer:    Intel Corporation
+Product:         440BX Desktop Reference Platform
+Chassis Type:    Other
+
+--- KEY FACTS ---
+agent_specified_environment: production
+aio_agent_build:             8.16.0
+aio_agent_version:           8.16.0
+augeas_version:              1.14.1
+clientcert:                  prodmbrid01latl.usaa.com
+clientnoop:                  false
+clientversion:               8.16.0
+patch_management:            Enabled
+operational_status:          Healthy
+================================================================================

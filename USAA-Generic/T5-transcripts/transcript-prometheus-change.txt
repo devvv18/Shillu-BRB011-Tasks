@@ -1,0 +1,63 @@
+Sure! Here@s the same text without the timestamps:
+Yeah, I heard, um, I heard Shrini starting to complain, and then he realized he wasn't on mute.
+so, that's when I heard that because he was like, "What's going on? Every room's taken."
+oh, he didn't know that he was... Yeah, then he immediately muted after that.
+And I was like, "No, Shrini, I already heard it."
+1.00
+Yeah, thank you guys for being there before so that we could have the room.
+Yeah, yeah, it would have been... I guess we have to use Password Safe, Tim.
+oh, yeah, I think those scripts should no longer work, I guess.
+Let me get my phone, one second. I'll just share my screen, but let me get my phone as well. Okay, one second.
+Okay -
+okay, okay.
+And then the change request was...
+okay.
+Okay •
+Message melyou had messaged me. So, use that, the 99581.
+okay, well, I thought it@s the 906 one secondadid I move...
+Yeah, Ive already put it in, its implemented now. Uh, shilu?
+oh, 906. Okay. As you can see on the Metal Gear Solid...
+There's a thread going on that today morning itself, I think, when I was showing you guys the, um, CTS servers, I logged in directly.
+But theyEre saying you're not supposed to do that any longer.
+Like, basically use Password Safe.
+Control serverEwhere is that zero one else, that right? This is the one.
+And the change request numberathis is assigned to me, right?
+Yeah, and, um, run Prometheus.
+Yes, that
+is Prometheus playbook to remove, um, 733 version of CTS servers from monitoring.
+Okay, okay. start application session... I don't know, choose other application then...
+What happened? Terminal, I guess... Item open.
+Yeah, open link... Oh, yeah, this is good. Wow, it let me open through item. I like that better than the terminal.
+So thatEs awesome. So now, let's... um, so the playbook that we're... So, um, Shilu will be logged into the server. Let me get these. I can get them on
+Okay, but my screen is... I don't have the... I'm at home right now, so I don't have the...
+WhatEs the screen to call? Sorry, I don't have that big screen right now, so if I do them side-by-side, it'll be difficult.
+But for this Prometheus release, um, what well do is... um, we'll see. so, this is the link to verify.
+So, Ill log into here and right now you will see that these servers are being...
+
+If I look at unhealthy, webll only have these two because these are the ones...
+Why do we not have the zero two else? That... maybe they had... okay, I know why, they might have had maintenance and thates why they are up now. Bu
+Um, you would see, Shilu, that, um, these CONF servers@prod, EMP, the zero one, the 733 ones@they have the variant as canary.
+So basically, uh, even though we see them as down, because now we are not using them, they are not actively alerting. Otherwise, anything that's unh
+Anything thates here should alert, but because we have the variant as canary, they are not going to alert any longer. I think the other ones also ha
+Sorry, the zero two, but just that they are up. Zero two is up right now. It has the variant canary. So, even this one is not alerting. Anything tha
+...are the stable servers, and they are the ones that will alert. So, these are the new servers. We want them to alert if the serverts downathe proo
+So all these have a variant as stable@the EMP, CONT, 11LSAT. So, this is where we can verify that the changes that we are doing today have...
+So, today what we are going to doball these have variant as stable. You want to see... um, so today...
+Zero one that you can see@they are there. These are the 733 old ones that we want to stop monitoring, because today we are going to shut them down.
+And then, it will start throwing alerts if we shut them down and we do not remove them from monitoring. So, anyways, they are not taking any active
+So, we can do it right now. So, today after we do the change, youll see them being replaced with canary.
+And the one, one, LSAT, the new ones, they should still have stable.
+Yeah, okay, so Ill quickly do the change, then get branch.
+Okay, so right now were on Ansible automation, and then the release steps for this would be just to run, um, this Prometheus playbook with the cana
+This is not the complete list. I had messaged, I'd run the same thing in dev and test, so I have the command that I sent Tim.
+Let me grab that because... yeah. So, this was the command that it includes the CTS rep servers...
+The old ones, the CTS servers, and the CTS servers, so IBll pick up that and run that here. oh, weall also need the change ID, right?
+oh, yeah, ites change underscore id equals to... Is it like this, or...?
+Just like that? Yeah, change... change, right?
+oh, yeah, yeah. Youre talking about the quotes. okay.
+oh yeah, uh, and then its CHG...
+2609906... Oh yeah, there you go. Sorry, Im making mistakes. I know youre able to type it like that.
+okay, so they should validate that itas a valid change request thates in implement state because they want that control there.
+We should not be making any changes to production without a valid change ID, so all prod Ansible playbooks require this dash e.
+
+This is now without timestamps. Let me know if you need further edits!

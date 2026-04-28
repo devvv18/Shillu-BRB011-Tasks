@@ -1,0 +1,99 @@
+================================================================================
+NAMING AND ORGANIZATION GUIDE
+Project: USAA ForgeRock DS Upgrade
+Last Updated: April 25, 2026
+================================================================================
+
+PURPOSE:
+Follow this guide when adding any new file or folder to keep the workspace 
+consistent, professional, and easy to navigate.
+
+--------------------------------------------------------------------------------
+SECTION 1: FOLDER STRUCTURE (TOP LEVEL)
+--------------------------------------------------------------------------------
+
+_GLOBAL/             | Progress tracker and this naming guide. (Always at top)
+REFERENCE/           | Master docs and technical references shared across tasks.
+T1-learning/         | Task 1: Learning and onboarding files.
+T2-{description}/    | Task 2 files (Follow the T-numbering from tasks-overview).
+T3-{description}/    | Task 3 files.
+T4-jira-tickets/     | Task 4: Contains sub-folders for each individual Jira ticket.
+  |_ MIAM-{id}-{name}| Sub-folders inside T4 (e.g., MIAM-37562-ssh-validation).
+T5-transcripts/      | Meeting recording transcripts and automated notes.
+TN-{description}/    | Future tasks (T6, T7, etc.) following the same pattern.
+
+RULES:
+- Folder names use lowercase-with-dashes (kebab-case).
+- T-number must match the task number in PROGRESS-TRACKER.txt.
+- _GLOBAL and REFERENCE always use the underscore prefix to stay pinned at top.
+
+--------------------------------------------------------------------------------
+SECTION 2: FILE NAMING CONVENTION
+--------------------------------------------------------------------------------
+
+FORMAT: {type}-{short-description}.txt
+
+TYPE PREFIX          | WHEN TO USE
+---------------------|----------------------------------------------------------
+guide-               | Step-by-step how-to instructions for a task.
+notes-               | Personal progress, concepts explained, and observations.
+chat-                | Slack, Teams, or email conversation logs.
+transcript-          | Meeting recording transcripts.
+data-                | Raw data from tools (Puppet facts, Ansible logs, etc.).
+tasks-               | Task lists and Jira story breakdowns.
+status-              | Point-in-time snapshot or summary of a ticket/milestone.
+
+EXAMPLES:
+- guide-ssh-validation.txt
+- notes-jira-ticket-details.txt
+- chat-team-planning-slack.txt
+- transcript-deployment-flow.txt
+- data-puppet-node-prodmbrid01latl.txt
+
+RULES:
+- All filenames must be lowercase-with-dashes.
+- No spaces in filenames.
+- Always include the .txt extension.
+- Descriptions should be concise (2–4 words).
+
+--------------------------------------------------------------------------------
+SECTION 3: WORKFLOWS
+--------------------------------------------------------------------------------
+
+HOW TO ADD A NEW TASK (T6, T7, etc.):
+1. Create folder: TN-short-description (e.g., T6-canary-rollout).
+2. Add a status entry in _GLOBAL/PROGRESS-TRACKER.txt under "TASKS OVERVIEW".
+3. Place all related files inside the new folder using the naming convention.
+
+HOW TO ADD A NEW JIRA TICKET (Inside T4):
+1. Create sub-folder: MIAM-{id}-{description} (e.g., MIAM-37565-cert-rotation).
+2. Add a status entry in _GLOBAL/PROGRESS-TRACKER.txt under "JIRA TICKETS".
+3. Start with a guide- file for steps and a notes- file for progress.
+
+--------------------------------------------------------------------------------
+SECTION 4: CURRENT WORKSPACE MAP (SUMMARY)
+--------------------------------------------------------------------------------
+
+_GLOBAL/
+  |_ PROGRESS-TRACKER.txt           | Live status of all tasks and tickets.
+  |_ NAMING-GUIDE.txt               | This reference file.
+
+REFERENCE/
+  |_ project-complete-reference.txt | Full technical master doc.
+  |_ project-detail.txt             | Beginner-friendly project explanation.
+
+T1-learning/
+  |_ tasks-overview.txt             | Roadmap of all project tasks and links.
+
+T4-jira-tickets/
+  |_ chat-team-planning-slack.txt   | Main planning thread with Andrew/Travis.
+  |_ MIAM-37561-create-vms/         | Status: DONE
+  |_ MIAM-37562-ssh-validation/     | Status: IN PROGRESS
+  |_ MIAM-37563-ansible-ds-install/ | Status: NEXT
+  |_ MIAM-37564-validate-connectivity/| Status: FUTURE
+
+T5-transcripts/
+  |_ transcript-deployment-flow.txt | Overview of the deployment process.
+  |_ transcript-prometheus-change.txt| Meeting on Prometheus monitoring steps.
+  |_ transcript-retiring-servers.txt| Meeting on retiring old 7.3.3 servers.
+================================================================================

@@ -1,0 +1,134 @@
+================================================================================
+MIAM-37562 | SSH VALIDATION VIA PASSWORDSAFE
+Complete Reference Guide - Shillu Navanand
+Created: April 24, 2026
+================================================================================
+
+PURPOSE:
+Full self-contained reference for this ticket, covering the current task 
+and the broader project context.
+
+--- SECTION 1: PROJECT BIG PICTURE ---
+Project: ForgeRock Directory Services (DS) 8.0.2 Upgrade
+Environment: MEMBER (prodmbrid*) servers in Production
+
+Deployment Journey:
+1. Deploy New VMs      = VMaaS Pipeline (COMPLETE)
+2. Migrate Data        = Ansible + Replication
+3. Canary Rollout      = Gradual traffic shift
+4. Retire Old VMs      = Decommission old infrastructure
+
+Our 4 NEW Production Servers:
+• prodmbrid01latl (Atlanta)
+• prodmbrid01lsat (San Antonio)
+• prodmbrid02latl (Atlanta)
+• prodmbrid02lsat (San Antonio)
+
+Jira Status Overview:
+• MIAM-37561: Create prodmbrid* VMs                     [DONE]
+• MIAM-37562: Validate Puppet dsadminp + SSH works      [IN PROGRESS]
+• MIAM-37563: Install DS via Ansible + Replication      [NEXT]
+• MIAM-37564: Validate Connectivity (ldapsearch/ADS)    [FUTURE]
+
+Production Access (PasswordSafe):
+• REQ Number:  REQ3295102 (Submitted: 2026-04-24)
+• RITM Number: RITM5069017 (Required for Login)
+
+--- SECTION 2: ACCESS STRATEGY ---
+Issue: The new prodmbrid* servers are not yet directly visible in PasswordSafe.
+Solution: Use prodfrctl01lsat (the Control/Jump server) which is already in 
+PasswordSafe. SSH into the jump server first, then SSH to the new member servers.
+
+Path: Your Laptop -> PasswordSafe -> Jump Server (prodfrctl01lsat) -> DS Server
+
+--- SECTION 3: STEP-BY-STEP VALIDATION ---
+
+STEP 1: Add SSH Key to GitLab
+Status: DONE
+Link: https://prodgitlab.usaa.com/-/user_settings/ssh_keys
+Key Fingerprint: AAAAC3NzaC11ZDI1NTE5AAAAIDruMhSTtkzr/130QCJGPviw78y194k73jLqcJBOsDsZ
+
+STEP 2: Identify Your RITM Number
+Status: DONE
+RITM: RITM5069017 (Check go/prodactionsportal under REQ3295102)
+
+STEP 3: Launch PasswordSafe Session
+Status: IN PROGRESS
+1. Login to go/passwordsafe.
+2. Find Account: "dsadminp" | System: "prodfrctl01lsat".
+3. Click Access and enter:
+   - Reason: MIAM-37562 Puppet/SSH validation on prod DS servers
+   - Ticket Number: RITM5069017
+   - Session Length: 2 hours
+4. Launch terminal (iTerm or Terminal works best).
+
+STEP 4: SSH to New Member Servers
+Status: IN PROGRESS
+From inside the jump server prompt ([dsadminp@prodfrct101lsat ~]$), run:
+• ssh prodmbrid01lsat
+• ssh prodmbrid01latl
+• ssh prodmbrid021sat
+• ssh prodmbrid02latl
+
+STEP 5: Validate Server Configuration
+Status: IN PROGRESS
+Run the following on each server to gather evidence for Jira:
+1. hostname         (Confirm correct server)
+2. id dsadminp      (Confirm user was created by Puppet)
+3. java -version    (Verify Java 17)
+4. python3 --version (Verify Python installation)
+
+--- SECTION 4: VALIDATION RESULTS ---
+
+KEY FINDING: Puppet creates "dsadminp" (NOT "dsadmin"). 
+Always use 'id dsadminp' for validation.
+
+[x] prodmbrid01lsat (DONE)
+    - Hostname: prodmbrid01lsat
+    - dsadminp: uid=13048(dsadminp) gid=13743(dsadminp) groups=13743(dsadminp),14378(sshaccess)
+    - Java:     openjdk 17.0.18 (Red Hat)
+    - Python3:  Validated
+
+[/] prodmbrid01latl (IN PROGRESS)
+    - Issue: "Host key verification failed"
+    - Fix: Run 'ssh-keygen -R prodmbrid01latl' then retry SSH.
+
+[ ] prodmbrid02lsat (TODO)
+[ ] prodmbrid02latl (TODO)
+
+--- SECTION 5: WHAT COMES NEXT (MIAM-37563) ---
+Next task: Install DS profile via Ansible + Validate replication.
+1. cd /forgerock/ansible-automation
+2. Run DS install playbook using Change ID: -e change_id=CHG_XXXXXXX
+
+--- SECTION 6: TEAM CONTACTS ---
+• Andrew: Manager & Lead (Overall direction, PasswordSafe approvals)
+• Tim:    Puppet/Ansible Expert (Playbooks, Jira stories, Prometheus)
+• Nidhi:  Puppet/Ansible Expert (Wrote PasswordSafe wiki)
+• Travis: Process Lead (Jira story creation)
+
+Slack Channels:
+• #CLLMBPXJT (Main Team Channel)
+• #DOAPL3KK4LF (Direct Discussion Thread)
+
+--- SECTION 7: MASTER LINK REPOSITORY ---
+
+ACCESS TOOLS:
+• PasswordSafe:          go/passwordsafe
+• Prod Action Portal:    go/prodactionsportal
+• PS Server Request:     http://go/soarpsrequest/
+• PasswordSafe Wiki:     https://wiki.usaa.com/spaces/IAO/pages/239864457/BeyondTrust+PasswordSafe
+• DS Login Guide:        https://wiki.usaa.com/spaces/PI/pages/953421896/How+To+Login+to+Forgerock+Admin+UI+DS+servers+from+PasswordSafe
+• GitLab SSH Keys:       https://prodgitlab.usaa.com/-/user_settings/ssh_keys
+
+REPOSITORIES:
+• VMaaS DS Project:      https://prodgitlab.usaa.com/grp-forgerock-vmaas/directory-services
+• VMaaS Pipeline:        https://prodgitlab.usaa.com/grp-forgerock-maas/directory-services/-/pipelines/22809964
+• Puppet Control Repo:   https://prodgitlab.usaa.com/grp-ops-puppet/control-repo
+• Ansible Automation:    https://prodgitlab.usaa.com/grp-inf-forgerock/ansible-automation
+
+JIRA TICKETS:
+• MIAM-37561: https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-37561
+• MIAM-37562: https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-37562
+• MIAM-37563: https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-37563
+• MIAM-37564: https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-37564
