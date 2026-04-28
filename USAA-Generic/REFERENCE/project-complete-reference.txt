@@ -1,0 +1,138 @@
+USAA FORGEROCK DS UPGRADE | Owner: Shillu Navanand | Updated: April 28, 2026
+Share THIS file with AI - full context, no need for other files.
+== WHAT IS THIS PROJECT ==
+ForgeRock = USAA's login/authentication system. Backend = Directory Services (DS).
+Upgrading DS 7.3.3 → 8.0.2 for MEMBER servers (mbrid*). Employee servers already done.
+Data centers: LATL=Atlanta, LSAT=San Antonio (two locations = redundancy) •
+== TOOLS ==
+Maas = builds new VMs via pipeline (like ordering a new computer automatically)
+Puppet = auto-configures VM on first boot (users, SSH, Java, Python). Runs itself.
+Ansible = installs ForgeRock DS software manually using playbooks. You run this.
+mansarly usi
+GitLab = code storage + pipelines. URL: https://prodgitlab.usaa.com
+PasswordSafe = secure vault to access prod servers. MUST use this - no direct SSH from laptop.
+Jump Server (prodfrctl01lsat) = middle server you land on before reaching DS servers.
+Jira = work tracking. Stories = MIAM-XXXXX tickets.
+Prometheus = monitoring. variant=stable → alerts ON. variant=canary → alerts OFF (use for new servers).
+Canary Pipeline = gradually shifts traffic 0%+5%10%100%. Roll back instantly if issues.
+ServiceNow = IT ticketing. REQ=overall request. RITM=item under it. PasswordSafe needs RITM not REQ.
+MGS = team's internal platform name. Wiki: go/mgswiki
+== 4 NEW SERVERS ==
+prodmbridolsat → San Antonio | prodmbridoslatl → Atlanta
+prodmbride2lsat → San Antonio | prodmbrid02latl → Atlanta
+Naming: prod=production, mbr=member, id=identity/DS, 01/02=number, lsat/latl=location
+Maas pipeline: https://prodgitlab.usaa.com/grp-forgerock-vmaas/directory-services/-/pipelines/22809964
+== UPGRADE PHASES ==
+Phase 1: Deploy VMs via VMaas. Puppet configures them. Isolated, no traffic yet.
+Phase 2: Ansible installs DS 8.0.2. Servers replicate each other. still no live traffic.
+Phase 3: Canary rollout 0>100%. Monitor Prometheus. Rollback anytime.
+Phase 4: Retire old DS 7.3.3. Disable web port → wait for 0 connections → shutdown gracefully.
+Notify SecApps. Remove from Prometheus. Update wikis. Submit for decommission.
+== JIRA STORIES ==
+MIAM-37561 | Create prodmbrid* vMs |
+DONE
+https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-37561
+MIAM-37562 | Validate Puppet dsadminp + SSH | E
+IN PROGRESS
+https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-37562
+PasswordSafe: https://passwordsafe.usaa.com/WebConsole/#!/ps/portal?tab=accounts
+RITM: RITM5069017 | REQ: REQ3295102
+Access: PasswordSafe → prodfrctl01lsat (dsadminp, IP 10.131.49.87) → Access << → enter RITM → Start Session → terminal → ssh prodmbridexlxxx
+Commands: hostname ; id dsadminp ; java -version ; python --version
+A
+USER IS dsadminp NOT dsadmin. "id dsadmin" returns no such user - that is correct.
+SERVER RESULTS:
+prodmbrid01lsat
+prodmbrid01latl
+hostname dsadminp uid=13048 gid=13743 sshaccess M
+java 17.0.18 M
+(clear host key: ssh-keygen -R prodmbridollatl → ssh → type yes)
+python &
+prodmbrid02lsat
+prodmbrid02latl
+Close ticket: comment in Jira with outputs, post in Slack CLLMBPXJT, mark Done.
+MIAM-37563 | Ansible DS 8.0.2 install + replication | X NEXT
+https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-37563
+SSH via PasswordSafe → prodfrctl01lsat → cd / forgerock/ansible-automation → run DS install playbook
+ALL prod Ansible runs need: -e change_id=CHG_XXXXXXx (CHG must be in Implement state)
+MIAM-37564 | dapsearch / Apache Directory Studio connectivity | & FUTURE
+https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-37564
+== PROD CHANGE RULES ==
+- Need CHG in Implement state OR RITM/CTASK for any prod action
+- All prod Ansible: -e change_
+_id=CHG_XXXXXXx (hard USAA control, no exceptions)
+- VMaas feature branch is TEMP (24hrs). Clone locally before triggering pipeline.
+- MR process: feature branch → MR to master → post in mgs-gitlab Slack → 2 approvals → team lead merges (not you)
+MR title: MIAM-XXXXX DIRECTORY SERVICE MEMBER UPGRADE TO 8.0.2
+‹100 lines = 2 approvals direct. ›100 lines
+= MR
+party needed.
+Prod tag: Code-Tags-Create Tag from Master. Tag name = match latest in •gitlab.yml. Do during day.
+GOTCHAS ==
+1. User = dsadminp NOT dsadmin (Puppet creates dsadminp on prod member servers)
+2. REQ # RITM. PasswordSafe needs RIM. Your RITM: RITM5069017
+3.
+New VMs NOT auto-added to PasswordSafe. Workaround: use prodfrct101lsat
+jump server. Add via: go/soarpsrequest
+4.
+"Host key verification failed" = VMs cloned from same template. Fix: ssh-keygen -R ‹server› then ssh + type yes
+5. No direct SSH from laptop to prod. Always: PasswordSafe → jump server → target server
+6. PE Console # control-repo. control-repo=code/recipe. PE Console=run dashboard. Login via cd-pe/stage-1 job in GitLab pipeline
+7. New VMs may not show in PE Console until Puppet first run. Ping Tim/Nidhi if not found.
+8. Ansible in prod requires valid CHG in Implement state. No CHG = playbook refuses.
+9. VMaas branch auto-deleted after 24hrs. Always clone locally first.
+10. New servers stay canary variant in Prometheus until AM connects to them. Then switch to stable.
+11. Canary rollout ~3 days. Stay at 100% for 1 full day before calling migration done. Roll back = set to 0% instantly.
+• 0% instantly.
+12. Before retiring old servers: switch Prometheus variant old→canary FIRST or shutdown fires false alerts.
+13. Graceful shutdown: run cleanup --profile=stop → disable LDAPS web port » wait for 0 connections → shutdown → verify in Prometheus → wait overnight » close CHG next morning.
+14. Post-rollout: remove old from Prometheus, disconnect replication, notify SecApps, update wikis, submit for decommission.
+== CERT STORIES (future, after DS install) ==
+Step 1: Request cert from another team for new servers.
+Step 2: Install cert via Ansible playbook (team already has this).
+Clone 1:1 from EMP cert stories - just change employee→member. Ask Tim for EMP cert story list.
+== TEAM ==
+Andrew = Manager/Lead. Direction, approvals, PasswordSafe requests.
+Tim = Puppet, Ansible, playbooks, Jira, Prometheus, replication. Main technical guide.
+Nidhi = Same as Tim. Wrote PasswordSafe wiki. Good for DS install guidance.
+Travis = Jira stories, team process.
+slack: CLLMBPXJT=main team. DOAPL3KK4LF=DMs. COAP9BFSJF7=team channel. mgs-gitlab=MR approvals.
+== MY SSH KEY ==
+ssh-ed25519 AAAAC3NzaC1]ZDI1NTE5AAAAIDruMhSTtkzr/130QCJGPviw78y194k73jLqcJBOsDsZ shillu.navanand@usaa.com
+== ALL LINKS ==
+PasswordSafe: https://passwordsafe.usaa.com/WebConsole/#!/ps/portal?tab=accounts
+Prod action portal: go/prodactionsportal OR go/prodaction
+Add servers to PasswordSafe: go/soarpsrequest
+BeyondTrust PS wiki: https://wiki.usaa.com/spaces/IAO/pages/239864457/BeyondTrust+PasswordSafe
+DS server login wiki (Nidhi): https://wiki.usaa.com/spaces/PI/pages/953421896/How+TO+Login+to+Forgerock+Admin+UI+DS+servers+from+PasswordSafe
+GitLab SSH keys: https://prodgitlab.usaa.com/-/user settings/ssh keys
+MaaS DS repo: https://prodgitlab.usaa.com/grp-forgerock-maas/directory-services
+Puppet control-repo: https://prodgitlab.usaa.com/grp-ops-puppet/control-repo
+Ansible automation: https://prodgitlab.usaa.com/grp-inf-forgerock/ansible-automation
+MGS scripts: https://prodgitlab.usaa.com/grp-mgs-talon/mgs-script-utilities
+CIS VMaas dev: https://prodgitlab.usaa.com/grp-cis-vmaas-dev
+DS Upgrade Guide: https://wiki.usaa.com/spaces/PI/pages/3808824081/Directory+Services+DS+Upgrade+Guide
+DS 8.0.2 Features: https://wiki.usaa.com/spaces/PI/pages/3989873207/Employee+and+Member+DS+8.0.2+Upgrade+Features
+Auth Platform Topology: https://wiki.usaa.com/spaces/PI/pages/2756914719/Authentication+Platform+Topology
+ForgeRock DS Pre/Post Validation: https://wiki.usaa.com/spaces/SECAPPS/pages/861359677/ForgeRock+Directory+Server+Pre-Validation+Post-Validation
+Maas Getting Started: https://wiki.usaa.com/spaces/ITOPS/pages/1516750600/VMaaS+-+Getting+Started+Part+4
+MGS Definition of Done: https://wiki.usaa.com/spaces/PI/pages/510850273/MGS+-+Definition+of+Done+and+Team+Agreement
+MGS home: https://wiki.usaa.com/spaces/PI/pages/510850251/Metal+Gear+Solid
+DS Upgrade Overview recording: https://usaa.zoom.us/rec/share/MabmTx38xAUAyMXiPk-n4TDa54Yt7zHeMgz65rv0BGXuJWg0Nuqrcx50ZV6HILS.76FBiaAkuJcd8gCu Passcode: y5m$FK6$
+slack threads: DM SSH discussion: https://usaa-tech.slack.com/archives/DAPL3KK4LF/p1776276085745799
+Team ssH thread: https://usaa-tech.slack.com/archives/CLLMBPXJT/D1776803887642829
+==
+НИНННІ
+STATUS (Apr 28, 2026) ==
+4 VMs created | V
+SSH key on GitLab |
+REQ3295102
+RITM5069017
+PasswordSafe access
+prodmbridolsat validated
+prodmbridollatl - ssh-keygen -R then ssh + yes + validate
+prodmbrid02lsat - ssh + validate
+prodmbrid02latl - ssh + validate
+close MIAM-37562 → post CLLMBPXJT → raise go/soarpsrequest for prodmbrid* in PasswordSafe
+MIAM-37563: Ansible DS 8.0.2 install (need CHG, talk to Tim)
+MIAM-37564: ldapsearch/ADS connectivity test
