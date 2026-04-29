@@ -22,9 +22,13 @@ PRE-REQUISITES:
 [x] MIAM-38006 closed: SSH + Puppet validated on all 4 servers.
 [x] PasswordSafe access: RITM5069017 (Jump Server).
 [ ] PasswordSafe onboarding for prodmbrid* servers (RITM5068998 in progress).
-LINK__>>
+    - ACTION: Ask Tim to check the status of this RITM.
+[ ] Certificate SANs Update (go/certreq):
+    - ACTION: Follow up with Drew to add 4 hostnames to the SANs list. 
+    - Lead Time: ~2 weeks. Certificates must be at /etc/pki/tls/certs.
+[ ] Backup Storage Request (MSM Portal):
+    - ACTION: Request 5TB backup mount drop via MSM portal (as per Jeff's advice).
 [ ] CHG raised and in "Implement" state (Ask Tim or Andrew for CHG #).
-link -> 
 
 SERVERS:
 - prodmbrid01lsat (San Antonio) | prodmbrid01latl (Atlanta)
@@ -48,27 +52,33 @@ STEP 2: Log into Control Server (Jump Server)
 
 STEP 3: Navigate to Ansible Directory
 [ ] cd /forgerock/ansible-automation
+[ ] Prepare Inventory: Confirm member ID servers are UN-COMMENTED.
 [ ] Ask Tim or Nidhi for the exact DS init playbook command.
     Format: ansible-playbook <playbook>.yml -e "target=prodmbrid01lsat" -e change_id=CHG_xxxxxxx
-    Note: -e change_id is REQUIRED on every production run
+    Note: -e change_id is REQUIRED on every production run.
 
-STEP 4: Run DS 8.0.2 Install Playbook (AC1)
-[ ] Run DS init playbook and monitor for failed tasks.ˀ
+STEP 4: Run Mandatory Preparation Playbook
+[ ] Run "VM Happy Place" Playbook: Mandatory setup for Python/Pip and Dash profiles.
+    - Ask Tim for exact command.
+
+STEP 5: Run DS 8.0.2 Install Playbook (AC1)
+[ ] Run DS init playbook and monitor for failed tasks.
 [ ] Verify DS service is running on each server:
     ssh <servername> -> systemctl status ds -> exit
-[ ] Confirm DS 8.0.2 is active on all 4 servers. (Capture screenshots)
+[ ] Confirm DS 8.0.2 is active on all 4 servers. (Capture screenshots).
 
-STEP 5: Bootstrap Replication (AC2)
+STEP 6: Bootstrap Replication (AC2)
 [ ] Ask Tim for the replication bootstrap playbook command.
+    Reference: Wiki Step 5 (https://wiki.usaa.com/spaces/Pl/pages/3535570622/DS+Canary+Steps)
 [ ] Run replication playbook with the valid CHG number.
 [ ] Verify sync status: "dsreplication status" (Ask Tim for specific flags).
 [ ] Confirm all 4 servers are listed and in sync. (Capture screenshots).
 
-STEP 6: Final Verification
+STEP 7: Final Verification
 [ ] SSH to each server and verify process: ps aux | grep ds
 [ ] Ensure AC1 (Running) and AC2 (Replicating) are both satisfied.
 
-STEP 7: Close Ticket
+STEP 8: Close Ticket
 [ ] Comment on Jira MIAM-38007 with:
     - DS install confirmation for all 4 servers.
     - Replication output (DSR).
@@ -82,12 +92,16 @@ STEP 7: Close Ticket
 LINKS & REFERENCES
 --------------------------------------------------------------------------------
 • Ansible Repo: https://prodgitlab.usaa.com/grp-inf-forgerock/ansible-automation
+• DS Canary Wiki: https://wiki.usaa.com/spaces/Pl/pages/3535570622/DS+Canary+Steps
 • Jira Story:  https://usaajira-2stagingmigration.atlassian.net/browse/MIAM-38007
 • DS Guide:    https://wiki.usaa.com/spaces/PI/pages/3808824081/DS+Upgrade+Guide
 • Validation:  https://wiki.usaa.com/spaces/SECAPPS/pages/861359677/Pre-Post-Validation
+• Certificate Request: go/certreq
 
 NOTES:
 - CHG Number: ________________
+- MSM Request Status: ________________
+- Cert SANs Status: ________________
 - Playbook Command: ___________________________________________________________
 - Results (DS Install / Replication):
   [ ] prodmbrid01lsat: _____ / _____

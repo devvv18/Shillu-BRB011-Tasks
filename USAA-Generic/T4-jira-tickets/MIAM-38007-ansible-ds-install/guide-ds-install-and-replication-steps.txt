@@ -1,0 +1,71 @@
+================================================================================
+MIAM-38007 | STEP-BY-STEP DS INSTALL & REPLICATION WORKFLOW
+Status: IN PROGRESS
+Owner: Shillu Navanand
+================================================================================
+
+PHASE 1: PREREQUISITES & COMPLIANCE (DO THESE FIRST)
+--------------------------------------------------------------------------------
+[ ] 1. Certificate SANs Update (go/certreq)
+       - Reach out to Andrew Richardson (Drew). 
+       - Request the 4 new servers be added to the SAN (Subject Alternative Name) 
+         list for the member DS certificates.
+       - Servers: prodmbrid01lsat, prodmbrid01latl, prodmbrid02lsat, prodmbrid02latl
+       - Wait for fulfillment (Lead time: 1-2 weeks). 
+       - Verification: Check for cert files at /etc/pki/tls/certs.
+
+[ ] 2. Backup Storage Request (MSM Portal)
+       - Go to the MSM (Member Storage Management) portal.
+       - Request a 5 Terabyte backup mount drop for all 4 servers.
+       - Note: This is required to match the existing production environment.
+
+[ ] 3. Raise Change Request (CHG) (ServiceNow)
+       - Ask Tim or Andrew for a Standard Change Template.
+       - If none, raise a "Normal Change" in ServiceNow.
+       - Description: "MIAM-38007 | Install ForgeRock DS 8.0.2 on Prod Member DS Servers"
+       - Ensure CHG is in "Implement" state before running Ansible.
+
+PHASE 2: ACCESS & ENVIRONMENT PREP
+--------------------------------------------------------------------------------
+[ ] 4. PasswordSafe Login (go/passwordsafe)
+       - Search for Jump Server: prodfrctl01lsat
+       - User: dsadminp
+       - Reason: "MIAM-38007 DS Install"
+       - Ticket: RITM5069017
+       - Action: "Access <<" -> Start Session.
+
+[ ] 5. Navigate & Inventory Check
+       - Command: cd /forgerock/ansible-automation
+       - Action: Confirm member ID servers are UN-COMMENTED in the inventory file. 
+         (Ask Tim for the specific inventory file path).
+
+PHASE 3: ANSIBLE EXECUTION
+--------------------------------------------------------------------------------
+[ ] 6. Run "VM Happy Place" Playbook
+       - Why: Mandatory for setting up Python/Pip and Dash profiles.
+       - Command: Ask Tim for the exact vm-happy-place.yml command.
+
+[ ] 7. Run DS Install Playbook (AC1)
+       - Command: ansible-playbook ds_install_new.yml -e "target=prodmbrid01lsat" -e change_id=CHG_XXXXXXX
+       - Repeat for all 4 servers.
+
+[ ] 8. Run Replication Bootstrap (AC2)
+       - Reference: Wiki Step 5 (https://wiki.usaa.com/spaces/Pl/pages/3535570622/DS+Canary+Steps)
+       - Action: Run the bootstrap playbook to sync the cluster.
+
+PHASE 4: VALIDATION & CLOSURE
+--------------------------------------------------------------------------------
+[ ] 9. Verify Cluster Health
+       - Command: Run "dsreplication status" or "DSR" on all servers.
+       - Expected: All 4 servers "Connected" and in sync.
+
+[ ] 10. Jira & Slack Update
+        - Jira: Attach screenshots of DSR output to MIAM-38007.
+        - Slack: Post success message in #CLLMBPXJT.
+
+================================================================================
+NOTES:
+- Lead Technical Contacts: Tim and Nidhi.
+- Manager/Cert Approver: Andrew Richardson (Drew).
+- Reminder: Every prod run REQUIRES the -e change_id=CHG_XXXXXXX flag.
+================================================================================

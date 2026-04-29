@@ -1,0 +1,549 @@
+Can you show me the Jira?
+
+Can you share the Jira number?
+
+Can you give me a link for the Jira?
+
+Can you give me a link for the Jira?
+
+Can you give me a link for the Jira?
+
+Got it. Let me take a look at that one. Give me a minute.
+
+Install DS profile and validate.
+
+Given the VMs have been brought on, each VM should have DS running.
+
+DS has been initialized. The application should be working.
+
+This looks similar to what we did for the conf and the CTS store.
+
+I think there is an IDM profile also.
+
+Like how we have CON for app and then CTS.
+
+There is something for DS for IDM as well.
+
+So, I think...
+
+So, I think...
+
+I think...
+
+Yeah, I'm trying to understand. One second. Give me a minute.
+
+Okay, I think my thought process is...
+
+We might need a change request to do this.
+
+I don't want to say we need it.
+
+Like it could...
+
+Like I really...
+
+Because there's nothing that's connecting to it.
+
+Like even though these are prod servers, there's nothing that's connecting to it.
+
+So, a request, like a prod request, what you did last time should be okay.
+
+But I don't want to take that call.
+
+So, what I would do is ask...
+
+Let me...
+
+Or maybe Norm sits like right across me.
+
+So, you can message him and then maybe I'll let you know what...
+
+Like if it's okay to do without a change request.
+
+If not, you'll have to raise a change request.
+
+Like there is no existing one.
+
+It will be a normal change.
+
+And then that means it will happen only at night.
+
+Or maybe this could be a standard change.
+
+But I really don't hope that...
+
+Because these are not being used at all.
+
+Right?
+
+So, a prod action.
+
+These are not connected to anything.
+
+So, that's my wish.
+
+But I don't want to take the call these days.
+
+In this environment, it's better that Norm or...
+
+Yes.
+
+Have you run the similar one in Dev and Test?
+
+IDM?
+
+No, no, no.
+
+Like have you done a similar DS profile installation for IDM in Dev and Test?
+
+Okay.
+
+Yeah.
+
+I think it was Jeff who installed it.
+
+So, he can tell you what needs to be done.
+
+But to your question for...
+
+Do you need a change request or not?
+
+I would ask Norm.
+
+You can message and I'll also follow up with him.
+
+He sits right across.
+
+I'll just check with him and I'll let you know once I hear back.
+
+He's not at his desk right now.
+
+But once he's back, I'll check with him and let you know.
+
+But yeah, you can check with him as well.
+
+You can also include Drew in the conversation.
+
+But basically, just tell him that these servers are not taking any traffic.
+
+And so, there is no reason.
+
+But I don't know.
+
+Like there are some controls that they have, right?
+
+So, I don't want to bypass any controls.
+
+Like it's fine going through a prod action and a request.
+
+You can say, I'll go through that.
+
+Because right now, there is no other way to log into these prod servers anyways.
+
+Okay.
+
+But you don't need to get that servers there, right?
+
+You can log into the control server and then go to the servers.
+
+Yeah.
+
+Yeah.
+
+Mm-hmm.
+
+Yeah.
+
+Sorry.
+
+So, you're saying where do you run these commands?
+
+Sorry.
+
+Yeah.
+
+That's what I would...
+
+Yes.
+
+Let me...
+
+And this is based on my understanding.
+
+Jeff will be the best person to answer this.
+
+Because I think he did it for Dev and Test.
+
+But from what I know...
+
+Let me see if there's anything there, though.
+
+For UserStore.
+
+This is UserStore.
+
+But is there anything for IDM?
+
+ESR?
+
+No.
+
+I don't know.
+
+So, from what I think...
+
+I think so.
+
+I think so.
+
+That you need to do a VM happy place and then install for member ID.
+
+I think so.
+
+So, that would install.
+
+That would be the first AC.
+
+Right?
+
+You had two ACs on this.
+
+But if I...
+
+Like, I think...
+
+Since Mobut is taking traffic, you can do it in Prod also.
+
+It's fine.
+
+Usually because...
+
+Like, we do this in Dev and Test.
+
+And then we move to Prod, right?
+
+But I think...
+
+Jeff...
+
+We were using this playbook for everything else.
+
+And then...
+
+When we had to add Identity Store, I think Jeff has already worked on it.
+
+I think so.
+
+But check with him.
+
+Please, please do not run without checking with him.
+
+Yeah.
+
+So, check with him.
+
+And see if you need to run it in Dev and Test just to get any experience.
+
+So, take his feedback.
+
+And then also get the change request.
+
+And then I would think maybe it would be this to install.
+
+And then how we did the bootstrap stables.
+
+Something like that.
+
+So, the exact thing that we did for our upgrade.
+
+I think you'll have to do the same playbooks.
+
+So, we done...
+
+One second.
+
+I'll just show you the...
+
+Yeah.
+
+Yeah.
+
+It's good to ask.
+
+So, this is mostly, I guess, the install new playbook that we have.
+
+And then this migrating data is the bootstrap stable.
+
+So, you've done this.
+
+And then now you are...
+
+Like for IDM.
+
+And now you're trying to install.
+
+For install new, you'll have to, I think, do a happy place.
+
+That'll be the first...
+
+This will be the first step.
+
+I think Tim has a wiki somewhere.
+
+First will be the VM happy place.
+
+Then it'll be the install profile.
+
+And then for member ID, you won't do it for user or anything, right?
+
+So, you will only do it on the server that you're targeting because...
+
+And for...
+
+And do you...
+
+Like, I don't know if you understand.
+
+So, before even doing that, try to understand.
+
+And feel free to ask me or Jeff or anybody, what is this playbook doing?
+
+Like, which playbooks is it referring to?
+
+What all is there in the install?
+
+And anytime you install, you should also know how to uninstall it.
+
+So, this is what you would do to install.
+
+And then how do you uninstall?
+
+There's also a rollback step where uninstall it.
+
+So, there's a remove.
+
+And you would do it for member ID, row add-on.
+
+So, these are the servers that you would work on, basically.
+
+And this is the action that you would take.
+
+And this is the playbook that you would run, the DS install new.
+
+And this is the checklist that we have.
+
+Yeah.
+
+So, let's try to understand.
+
+Yeah.
+
+What this is doing.
+
+So, that you would know what's happening around.
+
+In the install, it's calling this playbook.
+
+So, you'll go to the install playbook.
+
+Like, here.
+
+This is the install roll.
+
+When you run, it goes to this playbook.
+
+And so, if you look at this, it's going...
+
+It's referencing the install playbook in the install folder.
+
+So, what I'll do is I'll go to...
+
+And for install, there's a lot of steps it does.
+
+One second.
+
+Where is the install?
+
+Maybe it's in DS.
+
+Yeah.
+
+So, this is the playbook it does.
+
+It does some common configs and hosts.
+
+Basically, setting up the server.
+
+Some sim links and everything that's being set up.
+
+And then certs.
+
+I don't know.
+
+Did you raise a request for certs for your member identity servers?
+
+Yeah.
+
+That would be now, right?
+
+Yeah.
+
+So, before you do the install, you would need that as well.
+
+And that takes some time.
+
+So, while you submit the request, you would wait for...
+
+Because it takes some time for the server, the search to be...
+
+So, maybe...
+
+I don't think any of us can submit it.
+
+It's either Srini or Drew.
+
+They are added to the TPM.
+
+So, only those two have access.
+
+There is a limit of people that can be added.
+
+And there are two from our team and two from other teams.
+
+So, Srini is out.
+
+So, Drew is the only person right now from our team who can submit those cert requests.
+
+So, you can catch up with him as well.
+
+And then let him know before you can run this playbook.
+
+Because this playbook is going to fail at this step, right?
+
+And then it's going to do all this.
+
+Start this.
+
+And do installation.
+
+And you'll have to understand what each role is doing eventually.
+
+Maybe for now, if you don't understand in depth, that's fine.
+
+But you will...
+
+If something fails, you'll have to troubleshoot.
+
+Most likely, everything should work since this has been done in depth and test.
+
+And Jeff will be the right person to help you with that.
+
+But most likely, everything should work.
+
+But because you're starting from the first time, my advice would you...
+
+Just try to understand on a high level what each role is doing.
+
+If you're having questions, reach out to me or Jeff.
+
+I think most of this playbook was written by me.
+
+So, I think I know some of it.
+
+Like, sometimes I've forgotten.
+
+Like, it's been a while.
+
+So, I might have forgotten some things.
+
+But I can definitely go over some of the things.
+
+If you're having questions.
+
+Like, once you've gone through...
+
+And things have changed.
+
+Yeah.
+
+Yeah.
+
+Yeah.
+
+But...
+
+So, this would install.
+
+And then, in between, it also does replication.
+
+Right?
+
+So, what install does for you right now is just...
+
+I think before this step.
+
+Here.
+
+It just installs everything.
+
+Like, the ForgeRog DS on the identity servers that you have.
+
+But the servers within themselves, they're not replicating data.
+
+Right now, there is no active traffic coming.
+
+So, you're okay.
+
+But eventually, you want data to get replicated.
+
+Right?
+
+So, this install replication role is the one that does it.
+
+So, you'll do that.
+
+Make sure everything.
+
+And then, once you do that, it's an important thing that replication is.
+
+Then, we have a lot of tests that check if replication is set up correctly.
+
+So, you'll have to go through that.
+
+And make sure everything is replicating.
+
+And that would satisfy the second AC.
+
+I don't know.
+
+Before this, you might need to do the certs.
+
+Yeah.
+
+Yeah.
+
+Yeah.
+
+And feel free to reach out, you know, if you're having a...
+
+Like, if you get an error and you're stuck.
+
+Yeah.
+
+Okay.
+
+Yeah.
+
+Okay.
+
+Yeah.
+
+This part, at least I have some familiarity.
+
+So, I can help you.
+
+No problem.
+
+Yeah.
+
+Yeah.
